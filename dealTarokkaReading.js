@@ -5,7 +5,8 @@ function uuidv4() {
 }
 
 // CONSTANTS
-const SRC_DECK_NAME = "Tarokka";
+const HIGH_DECK_NAME = "Tarokka - High Deck";
+const COMMON_DECK_NAME = "Tarokka - Common Deck";
 const DST_CARD_PILE_NAME = "Tarokka Reading";
 const CARD_WIDTH = 200;
 const CARD_HEIGHT = 300;
@@ -116,29 +117,47 @@ function createCard(template, card, cardBackImage) {
         }
       }
     }
+    if (readCardMacro) {
+      cardData.flags["monks-active-tiles"].actions.push(
+        {
+          "action": "runmacro",
+          "data": {
+            "entity": {
+              "id": `Macro.${readCardMacro.id}`,
+              "name": readCardMacro.name
+            },
+            "args": `"${template.name}" "${card.data.name}"`,
+            "runasgm": "gm"
+          },
+          "id": uuidv4()
+        });
+    }
     canvas.scene.createEmbeddedDocuments("Tile", [cardData]);
 }
 
 
 // get reference to src/dst cards objects
-const src_cards = game.cards.filter(cards => cards.data.name===SRC_DECK_NAME)[0];
+const high_cards = game.cards.filter(cards => cards.data.name===HIGH_DECK_NAME)[0];
+const common_cards = game.cards.filter(cards => cards.data.name===COMMON_DECK_NAME)[0];
 const dst_cards = game.cards.filter(cards => cards.data.name===DST_CARD_PILE_NAME)[0];
+const readCardMacro = game.macros.contents.find(m => m.name == "readCard");
 
 // reset the deck if there are less than 5 cards
-if (src_cards.availableCards.length < 5) {
+if (high_cards.availableCards.length < 2 || common_cards.availableCards.length < 3) {
   await dst_cards.reset();
 }
 
 // deal 5 random card and grab reference to the dealt card
-await src_cards.deal([dst_cards], 5, {how: CONST.CARD_DRAW_MODES.RANDOM});
-let card_back = src_cards.data.img;
+await common_cards.deal([dst_cards], 3, {how: CONST.CARD_DRAW_MODES.RANDOM});
+await high_cards.deal([dst_cards], 2, {how: CONST.CARD_DRAW_MODES.RANDOM});
+let card_back = high_cards.data.img;
 
 let existingCards = canvas.scene.tiles.filter((t) => t.data.flags['monks-active-tiles'].files[0].name == card_back);
 for (var x=0; x < existingCards.length; x++) {
   existingCards[x].delete();
 }
 
-for (var i = dst_cards.cards.size - 5; i < dst_cards.cards.size; i++) {
-  let cardIndex = dst_cards.cards.size - i - 1;
-  createCard(CARD_DATA[cardIndex], dst_cards.cards.contents[[i]], card_back);
+for (var i = 0; i < 5; i++) {
+  let cardIndex = dst_cards.cards.size - (5 - i);
+  createCard(CARD_DATA[i], dst_cards.cards.contents[[cardIndex]], card_back);
 }
