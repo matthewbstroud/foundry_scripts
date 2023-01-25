@@ -132,8 +132,6 @@ if (src_cards.availableCards.length < 5) {
 // deal 5 random card and grab reference to the dealt card
 await src_cards.deal([dst_cards], 5, {how: CONST.CARD_DRAW_MODES.RANDOM});
 let card_back = src_cards.data.img;
-////let most_recent_drawn = dst_cards.cards.contents[dst_cards.cards.size - 1];
-//console.log(most_recent_drawn);
 
 let existingCards = canvas.scene.tiles.filter((t) => t.data.flags['monks-active-tiles'].files[0].name == card_back);
 for (var x=0; x < existingCards.length; x++) {
