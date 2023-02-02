@@ -1,12 +1,25 @@
-let sharees = canvas.scene.tokens.filter((token) => token.actor && token.actor.data.type == 'character').map(t => t.actor);
+if (!args || args.length != 3) {
+    ui.notifications.notify('Invalid arguments');
+}
+let sharer = game.actors.get(args[0]);
+
+let sharerCurrency = sharer.data.data.currency;
+
+let sharerTotalCP = (sharerCurrency.pp * 1000) + (sharerCurrency.gp * 100) + (sharerCurrency.ep * 50) + (sharerCurrency.sp * 10) + sharerCurrency.cp;
+
+let sharees = args[1].map(a => game.actors.get(a));
 if (sharees.length == 0) {
-    ui.notifications.notify('There are no character tokens in this scene.');
+    ui.notifications.notify('You must target at least one player to share money with.');
     return;
 }
 
-let actorCount = sharees.length;
+let shareAmounts = args[2];
+
+let actorCount = sharees.length + 1;
 let permissionCheck = false;
 if (game.user.isGM == true || game.user.isTrusted == true) { permissionCheck = true; }
+
+shareCurrency(shareAmounts.PP, shareAmounts.GP, shareAmounts.EP, shareAmounts.SP, shareAmounts.CP);
 
 function updateActorCurrency(targetActor, newTotalCP) {
     let newPP = Math.floor(newTotalCP / 1000);
@@ -28,20 +41,19 @@ function updateActorCurrency(targetActor, newTotalCP) {
         });
 }
 
-function toNumber(val) {
-    if (!val || val == '') {
-        return 0;
-    }
-    return Number(val);
-}
-
-function giveCurrency(totalPP, totalGP, totalEP, totalSP, totalCP) {
+function shareCurrency(totalPP, totalGP, totalEP, totalSP, totalCP) {
     let totalToShare = (totalPP * 1000) + (totalGP * 100) + (totalEP * 50) + (totalSP * 10) + totalCP
+
+    if (totalToShare > sharerTotalCP) {
+        ChatMessage.create({ content: `${sharer.name} doesn't have that much money!` });
+        return;
+    }
     let splitCP = Math.floor(totalToShare / actorCount);
     if (splitCP === 0) {
         ui.notifications.notify(`Cannot split ${totalToShare} copper between ${actorCount} people.`);
         return;
     }
+    updateActorCurrency(sharer, sharerTotalCP - (totalToShare - splitCP));
     sharees.forEach(actor => {
         let actorCurrency = actor.data.data.currency;
         let actorCurrentCP = (actorCurrency.pp * 1000) + (actorCurrency.gp * 100) + (actorCurrency.ep * 50) + (actorCurrency.sp * 10) + actorCurrency.cp;
@@ -64,7 +76,7 @@ function giveCurrency(totalPP, totalGP, totalEP, totalSP, totalCP) {
     if (splitSP > 0) { strOutput += "<span style='color:#717773'>" + splitSP + "sp</span>"; if (splitCP > 0) { strOutput += ", "; } }
     if (splitCP > 0) { strOutput += "<span style='color:#9D5934'>" + splitCP + "cp</span>"; }
 
-    ChatMessage.create({ content: strOutput });
+    ChatMessage.create({ speaker: { alias: sharer.name }, content: strOutput });
 };
 
 let currencyTotals = `
@@ -82,32 +94,3 @@ let currencyTotals = `
     <input type="number" id="cp" name="cp"/ >
 </div>
 `;
-
-new Dialog({
-    title: `Give Currency`,
-    content: `
-        <form>
-            ${currencyTotals}
-        </form>
-    `,
-    buttons: {
-        yes: {
-            icon: "<i class='fas fa-check'></i>",
-            label: `Give`,
-            callback: (html) => {
-                let totalPP = toNumber(html.find('#pp').val());
-                let totalGP = toNumber(html.find('#gp').val());
-                let totalEP = toNumber(html.find('#ep').val());
-                let totalSP = toNumber(html.find('#sp').val());
-                let totalCP = toNumber(html.find('#cp').val());
-
-                giveCurrency(Number(totalPP), Number(totalGP), Number(totalEP), Number(totalSP), Number(totalCP));
-            }
-        },
-        no: {
-            icon: "<i class='fas fa-times'></i>",
-            label: `Cancel`
-        },
-    },
-    default: "yes"
-}).render(true)

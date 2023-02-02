@@ -30,7 +30,14 @@ function updateActorCurrency(targetActor, newTotalCP) {
         "data.currency.cp": newTotalCP
     });
 }
- 
+
+function toNumber(val) {
+    if (!val || val == '') {
+        return 0;
+    }
+    return Number(val);
+}
+
 function removeCurrency(totalPP, totalGP, totalEP, totalSP, totalCP)
 {
     let totalToRemove = (totalPP * 1000) + (totalGP * 100) + (totalEP * 50) + (totalSP * 10) + totalCP
@@ -78,17 +85,11 @@ new Dialog({
             icon: "<i class='fas fa-check'></i>",
             label: `Take`,
             callback: (html) => {
-                let totalPP = html.find('#pp').val();
-                let totalGP = html.find('#gp').val();
-                let totalEP = html.find('#ep').val();
-                let totalSP = html.find('#sp').val();
-                let totalCP = html.find('#cp').val();
-                
-                if (totalPP == null || Number.isInteger(+totalPP) == false) { totalPP = 0; }
-                if (totalGP == null || Number.isInteger(+totalGP) == false) { totalGP = 0; }
-                if (totalEP == null || Number.isInteger(+totalEP) == false) { totalEP = 0; }
-                if (totalSP == null || Number.isInteger(+totalSP) == false) { totalSP = 0; }
-                if (totalCP == null || Number.isInteger(+totalCP) == false) { totalCP = 0; }
+                let totalPP = toNumber(html.find('#pp').val());
+                let totalGP = toNumber(html.find('#gp').val());
+                let totalEP = toNumber(html.find('#ep').val());
+                let totalSP = toNumber(html.find('#sp').val());
+                let totalCP = toNumber(html.find('#cp').val());
                 
                 removeCurrency(Number(totalPP), Number(totalGP), Number(totalEP), Number(totalSP), Number(totalCP));
             }
