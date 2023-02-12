@@ -6,7 +6,7 @@ const shape_shifters = {
         },
         "secondary": {
             "img": "/modules/curse_of_strahd/Tokens/NPC/Werewolf_Token.webp",
-            "scale": 1.5
+            "scale": 1.7
         }
     }
 } 
