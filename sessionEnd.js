@@ -1,3 +1,6 @@
+const SUMMARY_FOLDER_NAME = "Session Summaries";
+const SUMMARY_JOURNAL_NAME = "Session End Summary";
+
 let actors = canvas.scene.tokens.filter((token) => token.actor && token.actor.data.type == 'character').map(t => t.actor).sort(sortByName);
 if (actors.length == 0) {
     ui.notifications.notify('There are no character tokens in this scene.');
@@ -22,16 +25,14 @@ actors.forEach(actor => {
 });
 sessionEndSummaryHtml += `</table>`;
 
-
-var folder = game.folders.getName("Session Summaries");
+var folder = game.folders.getName(SUMMARY_FOLDER_NAME);
 
 if (!folder) {
-    ui.notifications.info("Please Create a Session Summaries folder under Journal Entries...");
-    return;
+    folder = await Folder.create({ "name": SUMMARY_FOLDER_NAME, "type": "JournalEntry" });
 }
 
 await JournalEntry.create({
-    name: `Session End Summary: ${(new Date()).toLocaleString()}`,
+    name: `${SUMMARY_JOURNAL_NAME}: ${(new Date()).toLocaleString()}`,
     content: sessionEndSummaryHtml,
     folder: folder.id
 });
