@@ -21,6 +21,11 @@ function toNumber(val) {
     return Number(val);
 }
 
+let animationOptions = '<option value="">None</option>';
+for (let [k, v] of Object.entries(CONFIG.Canvas.lightAnimations)) {
+    animationOptions += `<option value=${k}>${game.i18n.localize(v.label)}</option>`;
+}
+
 let lightsForm = `
 <b>Select Search Criteria:</b><br />
 <div style="display: flex; width: 100%; margin: 10px 0px 10px 0px">
@@ -28,8 +33,7 @@ let lightsForm = `
     <input type="string" id="search_color" name="search_color" />
     <label for="search_animation" style="white-space: nowrap; margin: 4px 10px 0px 10px;">Animation:</label>
     <select name="search_animation" id="search_animation">
-        <option value="">None</option>
-        <option value="torch">Torch</option>
+        ${animationOptions}
     </select>
 </div>
 <b>Set New Values:</b><br />
@@ -38,8 +42,7 @@ let lightsForm = `
     <input type="string" id="new_color" name="new_color" />
     <label for="new_animation" style="white-space: nowrap; margin: 4px 10px 0px 10px;">Animation:</label>
     <select name="new_animation" id="new_animation">
-        <option value="">None</option>
-        <option value="torch">Torch</option>
+        ${animationOptions}
     </select>
 </div>
 <span>Darkness Activation Range</span><br />
@@ -92,4 +95,4 @@ new Dialog({
         },
     },
     default: "yes"
-}).render(true)
+}, { width: 500 }).render(true)
