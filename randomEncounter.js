@@ -3,19 +3,9 @@ function getRandomInt(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-await game.tables.getName('Random Encounter').draw().then((r) => {
-    if (r.results.length == 0) {
-        return;
-    }
 
-    let combat = r.results[0].text.includes("bump");
-    if (!combat) {
-        return;
-    }
-    let timeOfDay = prompt("Is it day(d) or night(n)?");
-    timeOfDay = timeOfDay == "d" ? "Day" : "Night";
+function loadRandomScene(timeOfDay) {
     game.tables.getName('Random Encounter - ' + timeOfDay).draw().then((sr) => {
-        let sceneRoll = Number(sr.roll.result);
         if (sr.results.length > 0) {
             let result = /^[^\(]+/.exec(sr.results[0].text);
             if (result.length == 1) {
@@ -33,4 +23,32 @@ await game.tables.getName('Random Encounter').draw().then((r) => {
             }
         }
     });
+}
+await game.tables.getName('Random Encounter').draw().then((r) => {
+    if (r.results.length == 0) {
+        return;
+    }
+
+    let combat = r.results[0].text.includes("bump");
+    if (!combat) {
+        return;
+    }
+
+    new Dialog({
+        title: "Time of Day",
+        content: "Select Day or Night",
+        buttons: {
+            button1: {
+                label: "Day",
+                callback: () => { loadRandomScene("Day") },
+                icon: `<i class="fas fa-check"></i>`
+            },
+            button2: {
+                label: "Night",
+                callback: () => { loadRandomScene("Night") },
+                icon: `<i class="fas fa-times"></i>`
+            }
+        },
+        default: "button1"
+    }).render(true);
 });
