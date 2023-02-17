@@ -66,7 +66,6 @@ new Dialog({
             icon: "<i class='fas fa-check'></i>",
             label: `Update`,
             callback: (html) => {
-                debugger;
                 let search_color = html.find('#search_color').val();
                 if (search_color.length == 0) {
                     search_color = null;
