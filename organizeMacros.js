@@ -11,7 +11,7 @@ if (!playersFolder) {
 }
 
 
-let actorMacros = game.macros.filter(m => m.data.scope == "actor" && !m.data.parent);
+let actorMacros = game.macros.filter(m => !m.data.folder);
 for (var i=0; i < actorMacros.length; i++) {
 
     if (actorMacros[i].data.permission > 0) {
