@@ -11,8 +11,7 @@ if (!playersFolder) {
 }
 
 
-let actorMacros = game.macros.filter(m => m.data.scope == "actor");
-debugger;
+let actorMacros = game.macros.filter(m => m.data.scope == "actor" && !m.data.parent);
 for (var i=0; i < actorMacros.length; i++) {
 
     if (actorMacros[i].data.permission > 0) {
@@ -22,6 +21,7 @@ for (var i=0; i < actorMacros.length; i++) {
     if (Object.keys(newPermissions).length == 1) {
         // remove macro
         console.log(`Delete ${actorMacros[i].data.name}`);
+        actorMacros[i].delete();
         continue;
     }
 
@@ -34,6 +34,11 @@ for (var i=0; i < actorMacros.length; i++) {
     if (!playerFolder) {
         playerFolder = await Folder.create({ "name": user.name, "type": "Macro", "parent": playersFolder.id });
     }
+    if (!playerFolder) {
+        ui.notifications.notify(`Cannot create folder for user ${user.name}.`);
+        continue;
+    }
+    actorMacros[i].update({"folder": playerFolder.id});
 }
 
 function removeInvalidPermissions(macro) {
