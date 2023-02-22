@@ -1,3 +1,10 @@
+/*
+Macro will generate two 1 use trinkets in the player's inventory.  Each will roll a predetermined value 
+to the GM and then be destroyed.  Your daily portent uses are decremented on use.
+
+You cannot summon portent dice unless you have none and your portent uses are at 2.
+*/
+
 if (!actor) {
     ui.notifications.notify('No current actor.');
     return;
