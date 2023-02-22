@@ -35,7 +35,7 @@ function createPortentDice(actor) {
     let diceRoll = new Roll('1d20').evaluate({ async: false });
     let portentDice =
     {
-        "name": `Portent Dice (${diceRoll.total})`,
+        "name": `Portent Die (${diceRoll.total})`,
         "type": "consumable",
         "img": "icons/sundries/gaming/dice-runed-tan.webp",
         "data": {
@@ -124,6 +124,11 @@ function createPortentDice(actor) {
                 "magiceffect": false,
                 "concentration": false,
                 "toggleEffect": false
+            },
+            "ddbimporter": {
+              "ignoreIcon": true,
+              "ignoreItemImport": true,
+              "retainResourceConsumption": false
             }
         }
     };
