@@ -1,24 +1,14 @@
-const fireplaces =
-{
-    "ravenloft_2ndfloor_study":
-    {
-        light_color: "#cd8736",
-        sound_position: {
-            x: 4880,
-            y: 3360
-        }
-    }
-};
+if (!args || args.length != 1) {
+    ui.notifications.notify('Invalid arguments');
+}
 
 function toggleFireplace(fp) {
-    canvas.scene.lights.filter(l => l.data.config.color == fp.light_color).forEach(l => {
-        l.update({ hidden: !l.data.hidden });
-    });
-    let sound = canvas.scene.sounds.find(s => s.data.x === fp.sound_position.x && s.data.y === fp.sound_position.y);
-    
-    if (sound) {
-        let newState = !sound.data.hidden;
-        sound.update({ hidden: newState })
+    let light = canvas.scene.lights.find(l => l.getFlag("world", "fireplace") == fp);
+    let sound = canvas.scene.sounds.find(l => l.getFlag("world", "fireplace") == fp);
+    if (light && sound) {
+        let newState = !light.data.hidden;
+        light.update({ hidden: newState });
+        sound.update({ hidden: newState });
         var message = "";
         if (newState) {
             message = "The fire goes out.";
@@ -28,19 +18,12 @@ function toggleFireplace(fp) {
         }
         ChatMessage.create({ content: message });
     }
-
-
-    
+    else {
+        ui.notifications.notify(`Fireplace ${fp} does not exist in this scene.`);
+    }
 }
 
-if (!args || args.length != 1) {
-    ui.notifications.notify('Invalid arguments');
-}
 
-let fireplace = fireplaces[args[0]];
-
-if (!fireplace) {
-    ui.notifications.notify(`Cannot locate fireplace data for '${fireplace}'.`);
-}
+let fireplace = args[0];
 
 toggleFireplace(fireplace);
