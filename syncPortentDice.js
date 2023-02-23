@@ -1,7 +1,5 @@
 let actor = args[0].actor;
 
-
-
 if (!actor.data.flags.ddbimporter) {
     return;
 }
@@ -22,7 +20,7 @@ else if (actorResources.tertiary = "Portent") {
 if (diceResource == "") {
     return;
 }
-let portent = actor.data.items.find((i) => i.name == "Portent");
+let portent = actor.data.items.find((i) => i.name == "Portent" && i.data.type == "feat");
 let currentUses = parseInt(portent.data.data.uses.value) - 1;
 if (currentUses < 0) {
     return;
