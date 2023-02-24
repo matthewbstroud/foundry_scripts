@@ -18,11 +18,11 @@ if (!args || args.length != 1){
     ui.notifications.notify('Macro expected to be called from Magic Missile Midi-Qol Macro (After Damage Roll).');
 }
 
-debugger;
-
+// remove any existing
 await actor.items.filter(i => i.name.startsWith("Magic Dart") && i.data.type === "consumable").forEach(i => {
     i.delete();
 });
+
 let damageAmount = args[0].damageTotal;
 let numberOfTargets = args[0].targets.length;
 // we only need to create darts for those not rolled immediately
