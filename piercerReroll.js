@@ -1,6 +1,6 @@
 /*
 Allow rerolling the lowest die.
-SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/piecerReroll.js
+SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/piercerReroll.js
 */
 if (!["mwak", "rwak", "msak", "rsak"].includes(args[0].item.data.actionType)) return {};
 if (args[0].hitTargets.length < 1) return {};
