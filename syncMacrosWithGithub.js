@@ -9,6 +9,7 @@ function reqListener() {
             
             let newCommand = this.responseText;
             if (!newCommand || newCommand.length == 0) {
+                console.log(`${this.responseURL} returned no content!`)
                 return;
             }
             let macro = game.macros.get(macroID);

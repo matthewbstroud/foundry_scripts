@@ -1,5 +1,5 @@
 /*
-Create alternate tokens for special characters.
+Sync portent resource.
 SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/syncPortentDice.js
 */
 
