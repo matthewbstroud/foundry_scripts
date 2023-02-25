@@ -1,4 +1,7 @@
-
+/*
+changeLights - this script allows a basic search for lights in an scene and updates a few select properties
+SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/changeLights.js
+*/
 function updateLights(search_color, search_animation, new_color, new_animation, min_activation, max_activation) {
     let targetLights = canvas.scene.lights
         .filter(l => l.data.config.color == search_color && l.data.config.animation.type == search_animation);
