@@ -1,6 +1,8 @@
+/*
+Sync superiority dice resource.
+SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/syncSuperiorityDice.js
+*/
 let actor = args[0].actor;
-
-
 
 if (!actor.data.flags.ddbimporter) {
     return;

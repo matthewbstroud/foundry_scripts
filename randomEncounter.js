@@ -1,3 +1,7 @@
+/*
+Load a random encounter.
+SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/randomEncounter.js
+*/
 function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);

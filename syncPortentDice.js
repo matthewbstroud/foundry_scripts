@@ -1,3 +1,8 @@
+/*
+Create alternate tokens for special characters.
+SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/syncPortentDice.js
+*/
+
 let actor = args[0].actor;
 
 if (!actor.data.flags.ddbimporter) {

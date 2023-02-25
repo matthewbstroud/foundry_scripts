@@ -1,3 +1,7 @@
+/*
+Distribute money across players in scene.
+SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/giveMoney.js
+*/
 let sharees = canvas.scene.tokens.filter((token) => token.actor && token.actor.data.type == 'character').map(t => t.actor);
 if (sharees.length == 0) {
     ui.notifications.notify('There are no character tokens in this scene.');

@@ -1,3 +1,8 @@
+/*
+Create alternate tokens for special characters.
+SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/shapShift.js
+*/
+
 const shape_shifters = {
     "Emil Toranesc": {
         "primary": {

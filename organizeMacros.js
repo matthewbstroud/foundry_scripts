@@ -1,6 +1,7 @@
 /*
 This script will organize macros into folders by user.  It will remove any actor macros that are no
 longer accesible by any user.
+SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/organizeMacros.js
 */
 const PLAYER_MACROS_FOLDER = "Player Macros";
 

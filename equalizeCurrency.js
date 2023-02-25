@@ -2,6 +2,9 @@
 D&D 5th edition According to the Player's Handbook (5e) (2014), p.143, 
 the exchange rate of coins is: 
 1 silver = 10 copper 1 electrum = 5 silver 1 gold = 10 silver 1 platinum = 10 gold
+
+Macro will generate 5 taroka card tiles on the current scene.
+SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/equalizeCurrency.js
 */
 
 let actors = canvas.tokens.controlled.map(({ actor }) => actor);

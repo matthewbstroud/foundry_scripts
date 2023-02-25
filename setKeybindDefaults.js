@@ -1,3 +1,7 @@
+/*
+Set player keybinds.
+SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/setKeybindDefaults.js
+*/
 game.keybindings.set("core", "pause", [
     {
         key: "KeyP",

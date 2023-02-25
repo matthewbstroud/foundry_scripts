@@ -1,3 +1,7 @@
+/*
+Read a Tarokka Card.
+SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/readCard.js
+*/
 const TREASURE_LOCATIONS = {
     "Avenger": {
         "player": "The treasure lies in a dragon's house, in hands once clean and now corrupted.",

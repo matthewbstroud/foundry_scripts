@@ -1,3 +1,7 @@
+/*
+make npcs known or not
+SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/toggleNpcName.js
+*/
 if (canvas.tokens.controlled.length == 0) {
     ui.notifications.notify('No selected token');
     return;

@@ -1,3 +1,7 @@
+/*
+Write a summary journal at the end of a session.
+SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/sessionEnd.js
+*/
 const SUMMARY_FOLDER_NAME = "Session Summaries";
 const SUMMARY_JOURNAL_NAME = "Session End Summary";
 

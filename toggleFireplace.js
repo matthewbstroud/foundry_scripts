@@ -1,3 +1,7 @@
+/*
+toggle fireplace on an off
+SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/toggleFireplace.js
+*/
 if (!args || args.length != 1) {
     ui.notifications.notify('Invalid arguments');
 }

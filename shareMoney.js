@@ -1,3 +1,8 @@
+/*
+Allow players to share a lump sum
+SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/shareMoney.js
+*/
+
 if (canvas.tokens.controlled.length != 1) {
     ui.notifications.notify('Only one token can be selected to share currency.');
     return;

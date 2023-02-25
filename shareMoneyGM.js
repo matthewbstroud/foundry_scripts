@@ -1,3 +1,7 @@
+/*
+Allow players to share a lump sum - GM logic
+SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/shareMoneyGM.js
+*/
 if (!args || args.length != 3) {
     ui.notifications.notify('Invalid arguments');
 }

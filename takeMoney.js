@@ -1,3 +1,7 @@
+/*
+take money from selected or all players
+SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/takeMoney.js
+*/
 let allActorsInScene = canvas.scene.tokens.filter((token) => token.actor && token.actor.data.type == 'character').map(t => t.actor);
 let controlledActors = canvas.tokens.controlled.filter((token) => token.actor && token.actor.data.type == 'character').map(t => t.actor);
 
