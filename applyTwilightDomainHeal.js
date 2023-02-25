@@ -1,3 +1,7 @@
+/*
+applyTwilightDomainHeal - allow players to add their own temp hp
+SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/applyTwilightDomainHeal.js
+*/
 const tokens = canvas.tokens.controlled;
 const CLERIC_NAME = "Braelith";
 
