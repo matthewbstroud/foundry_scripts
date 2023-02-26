@@ -1,6 +1,6 @@
 /*
 Create alternate tokens for special characters.
-SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/shapShift.js
+SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/shapeShift.js
 */
 
 const shape_shifters = {
