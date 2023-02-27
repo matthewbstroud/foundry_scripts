@@ -13,6 +13,16 @@ const shape_shifters = {
             "img": "/modules/curse_of_strahd/Tokens/NPC/Werewolf_Token.webp",
             "scale": 1.7
         }
+    },
+    "Door Mimic": {
+        "primary": {
+            "img": "/modules/curse_of_strahd/Tokens/NPC/Mimic_Door_Token2.webp",
+            "scale": 1.1
+        },
+        "secondary": {
+            "img": "/systems/dnd5e/tokens/monstrosity/Mimic.webp",
+            "scale": 1.0
+        }
     }
 } 
 
