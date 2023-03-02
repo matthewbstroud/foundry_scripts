@@ -63,7 +63,7 @@ function createPortentDice(actor) {
                 "units": ""
             },
             "target": {
-                "value": null,
+                "value": "self",
                 "width": null,
                 "units": "",
                 "type": ""
