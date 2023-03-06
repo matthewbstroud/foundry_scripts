@@ -14,7 +14,7 @@ let item = items[0].object;
 
 function createUnidentifiedItem(item, name, description) {
     let newItem = {
-        "name": `Unidentified ${name}`,
+        "name": `${name}`,
         "type": item.data.type,
         "img": item.data.img,
         "data": {

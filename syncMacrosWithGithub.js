@@ -21,8 +21,10 @@ function reqListener() {
             }
         }
     }
-    else
+    else{
+        console.log(this.statusText);
         throw new Error(this.statusText);
+    }
 
 }
 
