@@ -25,7 +25,6 @@ unidentifiedItems.forEach(i => {
 
 
 async function identifyItem(target, itemID) {
-    debugger;
     let placeHolderItem = target.items.get(itemID);
     if (!placeHolderItem) {
         ui.notifications.notify(`Item no longer exists in player inventory!`);
@@ -37,12 +36,12 @@ async function identifyItem(target, itemID) {
         return;
     }
     let actualItem = game.items.get(actualItemID);
-    if (!actualItem){
+    if (!actualItem) {
         return;
     }
     let actualItemData = actualItem.toObject();
     actualItemData.data.identified = true;
-    let message = `${placeHolderItem.name} has been identified as <b>${actualItem.name}</b>.`;
+    let message = `Item has been identified as <b>${actualItem.name}</b>.`;
     await target.createEmbeddedDocuments("Item", [actualItemData]);
     await placeHolderItem.delete();
     ChatMessage.create({ speaker: { alias: 'Gamemaster' }, content: message });
