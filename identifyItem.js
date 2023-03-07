@@ -42,8 +42,10 @@ async function identifyItem(target, itemID) {
     }
     let actualItemData = actualItem.toObject();
     actualItemData.data.identified = true;
+    let message = `${placeHolderItem.name} has been identified as <b>${actualItem.name}</b>.`;
     await target.createEmbeddedDocuments("Item", [actualItemData]);
     await placeHolderItem.delete();
+    ChatMessage.create({ speaker: { alias: 'Gamemaster' }, content: message });
 }
 
 let unidentifiedItemsForm = `
