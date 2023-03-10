@@ -2,7 +2,7 @@
 Identify a single item in a player's inventory
 SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/identifyTargetItem.js
 */
-
+const MACRO_IDENTIFY_TARGET_ITEM_GM = "identifyTargetItemGM";
 if (!args || args.length == 0) {
     console.log("identifyTargetItem: no arguments. cannot proceed.");
     return;
@@ -22,6 +22,13 @@ if (!targetActor || targetActor.data.type == "npc") {
     return;
 }
 
+let gmMacro = game.macros.getName(MACRO_IDENTIFY_TARGET_ITEM_GM);
+
+if (!gmMacro) {
+    ui.notifications.notify(`${MACRO_IDENTIFY_TARGET_ITEM_GM} not found!`);
+    return;
+}
+
 let unidentifiedItems = targetActor.items.filter(i => i.getFlag("world", "identified_id"));
 
 if (!unidentifiedItems || unidentifiedItems.length == 0) {
@@ -33,30 +40,6 @@ let itemOptions = '';
 unidentifiedItems.forEach(i => {
     itemOptions += `<option value="${i.id}">${i.name}</option>`;
 });
-
-
-async function identifyItem(target, itemID) {
-    let placeHolderItem = target.items.get(itemID);
-    if (!placeHolderItem) {
-        ui.notifications.notify(`Item no longer exists in player inventory!`);
-        return;
-    }
-    let actualItemID = placeHolderItem.getFlag("world", "identified_id");
-    if (!actualItemID) {
-        ui.notifications.notify(`Item doesn't specify a parent!`);
-        return;
-    }
-    let actualItem = game.items.get(actualItemID);
-    if (!actualItem) {
-        return;
-    }
-    let actualItemData = actualItem.toObject();
-    actualItemData.data.identified = true;
-    let message = `Item has been identified as <b>${actualItem.name}</b>.`;
-    await target.createEmbeddedDocuments("Item", [actualItemData]);
-    await placeHolderItem.delete();
-    ChatMessage.create({ speaker: { alias: actor.name }, content: message });
-}
 
 let unidentifiedItemsForm = `
 <div style="display: block; width: 100%; margin: 10px 0px 10px 0px">
@@ -81,7 +64,7 @@ new Dialog({
             callback: (html) => {
                 let id = html.find('#item_to_identify').val();
                 console.log(id);
-                identifyItem(targetActor, id);
+                gmMacro.execute(actor.id, targetActor.id, id);
             }
         },
         no: {
