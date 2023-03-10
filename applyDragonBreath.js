@@ -4,7 +4,6 @@ Modified to work with v9
 SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/applyDragonBreath.js
 */
 
-debugger;
 let chris = {
     'dialog': async function _dialog(title, options) {
         let buttons = options.map(([label, value]) => ({ label, value }));
