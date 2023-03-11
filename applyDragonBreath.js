@@ -3,7 +3,6 @@ Taken from https://github.com/chrisk123999/foundry-macros/blob/main/Spells/Drago
 Modified to work with v9
 SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/applyDragonBreath.js
 */
-
 let chris = {
     'dialog': async function _dialog(title, options) {
         let buttons = options.map(([label, value]) => ({ label, value }));
@@ -39,58 +38,26 @@ let chris = {
             case 'poison':
                 return 'icons/magic/death/skull-poison-green.webp';
         }
-    }
+    },
+    'GM_MACRO': 'applyDragonBreathGM'
 };
+
+let activeGMS = game.users.filter(u => u.active && u.role == 4);
+if (!activeGMS || activeGMS.length == 0) {
+    ui.notifications.notify(`This cannot be used without an active GM in game!`);
+    return;
+}
+
+let gmMacro = game.macros.getName(chris.GM_MACRO);
+
+if (!gmMacro) {
+    ui.notifications.notify(`${chris.GM_MACRO} not found!`);
+    return;
+}
 if (this.targets.size != 1) return;
 let targetToken = this.targets.first();
 let spellLevel = args[0].spellLevel;
 let spellDC = chris.getSpellDC(this.item);
 let damageType = await chris.dialog('What damage type?', [['🧪 Acid', 'acid'], ['❄️ Cold', 'cold'], ['🔥 Fire', 'fire'], ['⚡ Lightning', 'lightning'], ['☠️ Poison', 'poison']]);
 if (!damageType) damageType = 'fire';
-let packName = 'world.autospells';
-let pack = game.packs.get(packName);
-if (!pack) return;
-let packItems = await pack.getDocuments();
-if (packItems.length === 0) return;
-let itemData = packItems.find(item => item.name === 'Dragon Breath');
-if (!itemData) return;
-let itemObject = itemData.toObject();
-let diceNumber = spellLevel + 1;
-itemObject.data.damage.parts = [
-    [
-        diceNumber + 'd6[' + damageType + ']',
-        damageType
-    ]
-];
-itemObject.data.save.dc = spellDC;
-let effectData = {
-    'label': itemObject.name,
-    'icon': chris.getDamageIcon(damageType),
-    'duration': {
-        'seconds': 60
-    },
-    'origin': this.item.uuid,
-    'flags': {
-        'effectmacro': {
-            'onDelete': {
-                'script': "warpgate.revert(token.document, '" + itemObject.name + "');"
-            }
-        },
-    }
-};
-let updates = {
-    'embedded': {
-        'Item': {
-            [itemObject.name]: itemObject
-        },
-        'ActiveEffect': {
-            [itemObject.name]: effectData
-        }
-    }
-};
-let options = {
-    'permanent': false,
-    'name': itemObject.name,
-    'description': itemObject.name
-};
-await warpgate.mutate(targetToken.document, updates, {}, options);
+gmMacro.execute(this.item.uuid, targetToken.document.id, spellLevel, spellDC, damageType);
