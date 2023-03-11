@@ -25,20 +25,6 @@ let chris = {
         }
         return spellDC;
     },
-    'getDamageIcon': function _getDamageIcon(damageType) {
-        switch (damageType) {
-            case 'acid':
-                return 'icons/magic/acid/projectile-smoke-glowing.webp';
-            case 'cold': 
-                return 'icons/magic/water/projectile-icecicles-salvo.webp';
-            case 'fire': 
-                return 'icons/magic/fire/projectile-wave-yellow.webp';  
-            case 'lightning':
-                return 'icons/magic/lightning/projectile-orb-blue.webp';
-            case 'poison':
-                return 'icons/magic/death/skull-poison-green.webp';
-        }
-    },
     'GM_MACRO': 'applyDragonBreathGM'
 };
 
