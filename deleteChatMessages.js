@@ -21,10 +21,10 @@ function toNumber(val) {
 }
 
 let formHtml = `
-<b>How far back?:</b><br />
+<b>How far back?</b><br />
 <div style="display: flex; width: 100%; margin: 10px 0px 10px 0px">
     <label for="minutes_back" style="white-space: nowrap; margin: 4px 10px 0px 10px;">Minutes:</label>
-    <input type="number" value="0" id="minutes_back" name="minutes_back" />
+    <input type="number" value="30" id="minutes_back" name="minutes_back" />
 </div>
 `;
 
