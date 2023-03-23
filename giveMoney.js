@@ -8,6 +8,11 @@ if (sharees.length == 0) {
     return;
 }
 
+let controlledActors = canvas.tokens.controlled.filter((token) => token.actor && token.actor.data.type == 'character').map(t => t.actor);
+if (controlledActors.length > 0) {
+    sharees = controlledActors;
+}
+
 let actorCount = sharees.length;
 let permissionCheck = false;
 if (game.user.isGM == true || game.user.isTrusted == true) { permissionCheck = true; }
@@ -61,12 +66,17 @@ function giveCurrency(totalPP, totalGP, totalEP, totalSP, totalCP) {
     let splitSP = Math.floor(splitCP / 10);
     splitCP -= splitSP * 10;
 
-    let strOutput = "<b>Gave " + sharees.length + " players each</b>:<br />";
-    if (splitPP > 0) { strOutput += "<span style='color:#90A2B6'>" + splitPP + "pp</span>"; if (splitGP > 0 || splitEP > 0 || splitSP > 0 || splitCP > 0) { strOutput += ", "; } }
-    if (splitGP > 0) { strOutput += "<span style='color:#B08C34'>" + splitGP + "gp</span>"; if (splitEP > 0 || splitSP > 0 || splitCP > 0) { strOutput += ", "; } }
-    if (splitEP > 0) { strOutput += "<span style='color:#617480'>" + splitEP + "ep</span>"; if (splitSP > 0 || splitCP > 0) { strOutput += ", "; } }
-    if (splitSP > 0) { strOutput += "<span style='color:#717773'>" + splitSP + "sp</span>"; if (splitCP > 0) { strOutput += ", "; } }
-    if (splitCP > 0) { strOutput += "<span style='color:#9D5934'>" + splitCP + "cp</span>"; }
+    let strOutput = `<b>Cha-ching!</b><br />`;
+    let strShareAmount = "";
+    if (splitPP > 0) { strShareAmount += "<span style='color:#90A2B6'>" + splitPP + "pp</span>"; if (splitGP > 0 || splitEP > 0 || splitSP > 0 || splitCP > 0) { strOutput += ", "; } }
+    if (splitGP > 0) { strShareAmount += "<span style='color:#B08C34'>" + splitGP + "gp</span>"; if (splitEP > 0 || splitSP > 0 || splitCP > 0) { strOutput += ", "; } }
+    if (splitEP > 0) { strShareAmount += "<span style='color:#617480'>" + splitEP + "ep</span>"; if (splitSP > 0 || splitCP > 0) { strOutput += ", "; } }
+    if (splitSP > 0) { strShareAmount += "<span style='color:#717773'>" + splitSP + "sp</span>"; if (splitCP > 0) { strOutput += ", "; } }
+    if (splitCP > 0) { strShareAmount += "<span style='color:#9D5934'>" + splitCP + "cp</span>"; }
+    sharees.forEach(actor => {
+        strOutput += `${actor.name} received: ${strShareAmount}<br />`;
+
+    });
 
     ChatMessage.create({ content: strOutput });
 };
