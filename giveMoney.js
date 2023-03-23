@@ -44,6 +44,24 @@ function toNumber(val) {
     return Number(val);
 }
 
+function getShareAmount(sharedCopper) {
+    let splitPP = Math.floor(sharedCopper / 1000);
+    sharedCopper -= splitPP * 1000;
+    let splitGP = Math.floor(sharedCopper / 100);
+    sharedCopper -= splitGP * 100;
+    let splitEP = Math.floor(sharedCopper / 50);
+    sharedCopper -= splitEP * 50;
+    let splitSP = Math.floor(sharedCopper / 10);
+    sharedCopper -= splitSP * 10;
+    let strShareAmount = "";
+    if (splitPP > 0) { strShareAmount += "<span style='color:#90A2B6'>" + splitPP + "pp</span>"; if (splitGP > 0 || splitEP > 0 || splitSP > 0 || sharedCopper > 0) { strShareAmount += ", "; } }
+    if (splitGP > 0) { strShareAmount += "<span style='color:#B08C34'>" + splitGP + "gp</span>"; if (splitEP > 0 || splitSP > 0 || sharedCopper > 0) { strShareAmount += ", "; } }
+    if (splitEP > 0) { strShareAmount += "<span style='color:#617480'>" + splitEP + "ep</span>"; if (splitSP > 0 || sharedCopper > 0) { strShareAmount += ", "; } }
+    if (splitSP > 0) { strShareAmount += "<span style='color:#717773'>" + splitSP + "sp</span>"; if (sharedCopper > 0) { strShareAmount += ", "; } }
+    if (sharedCopper > 0) { strShareAmount += "<span style='color:#9D5934'>" + sharedCopper + "cp</span>"; }
+    return strShareAmount;
+}
+
 function giveCurrency(totalPP, totalGP, totalEP, totalSP, totalCP) {
     let totalToShare = (totalPP * 1000) + (totalGP * 100) + (totalEP * 50) + (totalSP * 10) + totalCP
     let splitCP = Math.floor(totalToShare / actorCount);
@@ -51,31 +69,15 @@ function giveCurrency(totalPP, totalGP, totalEP, totalSP, totalCP) {
         ui.notifications.notify(`Cannot split ${totalToShare} copper between ${actorCount} people.`);
         return;
     }
+
+    let strOutput = `<b>Cha-ching!</b><br />`;
+    let sharedAmount = getShareAmount(splitCP);
     sharees.forEach(actor => {
         let actorCurrency = actor.data.data.currency;
         let actorCurrentCP = (actorCurrency.pp * 1000) + (actorCurrency.gp * 100) + (actorCurrency.ep * 50) + (actorCurrency.sp * 10) + actorCurrency.cp;
         let actorNewTotal = actorCurrentCP + splitCP;
         updateActorCurrency(actor, actorNewTotal);
-    });
-    let splitPP = Math.floor(splitCP / 1000);
-    splitCP -= splitPP * 1000;
-    let splitGP = Math.floor(splitCP / 100);
-    splitCP -= splitGP * 100;
-    let splitEP = Math.floor(splitCP / 50);
-    splitCP -= splitEP * 50;
-    let splitSP = Math.floor(splitCP / 10);
-    splitCP -= splitSP * 10;
-
-    let strOutput = `<b>Cha-ching!</b><br />`;
-    let strShareAmount = "";
-    if (splitPP > 0) { strShareAmount += "<span style='color:#90A2B6'>" + splitPP + "pp</span>"; if (splitGP > 0 || splitEP > 0 || splitSP > 0 || splitCP > 0) { strOutput += ", "; } }
-    if (splitGP > 0) { strShareAmount += "<span style='color:#B08C34'>" + splitGP + "gp</span>"; if (splitEP > 0 || splitSP > 0 || splitCP > 0) { strOutput += ", "; } }
-    if (splitEP > 0) { strShareAmount += "<span style='color:#617480'>" + splitEP + "ep</span>"; if (splitSP > 0 || splitCP > 0) { strOutput += ", "; } }
-    if (splitSP > 0) { strShareAmount += "<span style='color:#717773'>" + splitSP + "sp</span>"; if (splitCP > 0) { strOutput += ", "; } }
-    if (splitCP > 0) { strShareAmount += "<span style='color:#9D5934'>" + splitCP + "cp</span>"; }
-    sharees.forEach(actor => {
-        strOutput += `${actor.name} received: ${strShareAmount}<br />`;
-
+        strOutput += `${actor.name} received: ${sharedAmount}<br />`;
     });
 
     ChatMessage.create({ content: strOutput });
