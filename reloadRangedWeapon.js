@@ -29,7 +29,13 @@ let reloader = {
         return target.items.filter(i => i.data.type == "consumable" && i.data.data.quantity > 0 && i.data.data.actionType == "rwak" && i.name.toLowerCase().includes(ammoType));
     },
     loadWeapon: async function _loadWeapon(weapon, ammo){
-        weapon.update({ "data.consume.target": ammo.id});
+        weapon.update(
+            { 
+                "data.consume.type": "ammo",
+                "data.consume.target": ammo.id,
+                "data.consume.amount": 1
+            }
+        );
         
     },
     createButtonDialog: async function _createButtonDialog(title, listItems) {
