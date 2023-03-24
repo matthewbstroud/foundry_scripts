@@ -3,8 +3,6 @@ Reload a bow or crossbow.
 SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/reloadRangedWeapon.js
 */
 
-// canvas.tokens.controlled[0].actor.items.filter(i => i.data.type == "consumable" && i.data.data.quantity > 0 && i.data.data.actionType == "rwak" && i.name.toLowerCase().includes("arrow"))
-
 let reloader = {
     getEqippedRangedWeapons: function _getEqippedRangedWeapons(target) {
         return target.items.filter(i => i.data.data.equipped == true && i.data.type == "weapon" && i.data.data.actionType == "rwak");
