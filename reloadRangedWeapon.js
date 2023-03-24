@@ -38,8 +38,7 @@ let reloader = {
         );
         
     },
-    createButtonDialog: async function _createButtonDialog(title, listItems) {
-        let buttons = listItems.map(i => ({ label: i.name, value: i.id }));
+    createButtonDialog: async function _createButtonDialog(title, buttons) {
         let selected = await warpgate.buttonDialog(
             {
                 buttons,
@@ -64,7 +63,7 @@ if (equippedRangeWeapons.length < 1) {
     return;
 }
 
-var selectedWeaponID = await reloader.createButtonDialog("Select Weapon", equippedRangeWeapons);
+var selectedWeaponID = await reloader.createButtonDialog("Select Weapon", equippedRangeWeapons.map(w => ({label: w.name, value: w.id})));
 var selectedWeapon = equippedRangeWeapons.find(w => w.id == selectedWeaponID);
 var availableAmmo = reloader.getAmmo(controlledActor, selectedWeapon);
 
@@ -73,7 +72,7 @@ if (availableAmmo.length < 1) {
     return;
 }
 
-var selectedAmmoID = await reloader.createButtonDialog("Select Ammo", availableAmmo);
+var selectedAmmoID = await reloader.createButtonDialog("Select Ammo", availableAmmo.map(a => ({label: `${a.name} (${a.data.data.quantity})`, value: a.id})));
 var selectedAmmo = availableAmmo.find(a => a.id == selectedAmmoID);
 
 reloader.loadWeapon(selectedWeapon, selectedAmmo);
