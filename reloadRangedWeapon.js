@@ -64,6 +64,9 @@ if (equippedRangeWeapons.length < 1) {
 }
 
 var selectedWeaponID = await reloader.createButtonDialog("Select Weapon", equippedRangeWeapons.map(w => ({label: w.name, value: w.id})));
+if (!selectedWeaponID) {
+    return;
+}
 var selectedWeapon = equippedRangeWeapons.find(w => w.id == selectedWeaponID);
 var availableAmmo = reloader.getAmmo(controlledActor, selectedWeapon);
 
@@ -73,6 +76,9 @@ if (availableAmmo.length < 1) {
 }
 
 var selectedAmmoID = await reloader.createButtonDialog("Select Ammo", availableAmmo.map(a => ({label: `${a.name} (${a.data.data.quantity})`, value: a.id})));
+if (!selectedAmmoID) {
+    return;
+}
 var selectedAmmo = availableAmmo.find(a => a.id == selectedAmmoID);
 
 reloader.loadWeapon(selectedWeapon, selectedAmmo);
