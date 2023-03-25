@@ -41,6 +41,7 @@ async function identifyItem(target, itemID) {
     }
     let actualItemData = actualItem.toObject();
     actualItemData.data.identified = true;
+    actualItemData.data.quantity = placeHolderItem.data.data.quantity;
     let message = `Item has been identified as <b>${actualItem.name}</b>.`;
     await target.createEmbeddedDocuments("Item", [actualItemData]);
     await placeHolderItem.delete();

@@ -2,7 +2,6 @@
 Identify a single item in a player's inventory, gm excecution
 SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/identifyTargetItemGM.js
 */
-debugger;
 if (!args || args.length != 3) {
     console.log("identifyTargetItemGM: invalid arguments. cannot proceed.");
     return;
@@ -33,6 +32,7 @@ async function identifyItem(source, target, itemID) {
     }
     let actualItemData = actualItem.toObject();
     actualItemData.data.identified = true;
+    actualItemData.data.quantity = placeHolderItem.data.data.quantity;
     let message = `Item has been identified as <b>${actualItem.name}</b>.`;
     await target.createEmbeddedDocuments("Item", [actualItemData]);
     await placeHolderItem.delete();

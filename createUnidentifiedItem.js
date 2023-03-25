@@ -11,12 +11,12 @@ if (!items || items.length == 0 || items.length > 1) {
 
 let item = items[0].object;
 
-
 function createUnidentifiedItem(item, name, description) {
     let newItem = {
         "name": `${name}`,
         "type": item.data.type,
         "img": item.data.img,
+        
         "data": {
             "description": {
                 "value": description,
@@ -29,6 +29,7 @@ function createUnidentifiedItem(item, name, description) {
             "equipped": false,
             "identified": false
         }, 
+        "folder": item.data.folder,
         "flags": {
             "world": {
                 "identified_id": item.id
