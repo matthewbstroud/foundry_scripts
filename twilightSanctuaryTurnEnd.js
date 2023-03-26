@@ -2,9 +2,8 @@
 end of turn automation for twilight sanctuary, requires midi-qol and event macros
 SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/twilightSanctuaryTurnEnd.js
 */
-
+const GM_MACRO = "twilightSanctuaryRemoveEffectsGM";
 const twilightUtil = {
-    REMOVABLE_EFFECTS: /(charmed|feared|frightened)/gi,
     getDistance: function _getDistance(source, target) {
         let sourceTokens = source.getActiveTokens();
         let targetTokens = target.getActiveTokens();
@@ -29,7 +28,7 @@ const twilightUtil = {
 
         buttons = buttons.concat(
             actor.effects.contents
-                .filter(e => e.data.label.match(REMOVABLE_EFFECTS))
+                .filter(e => e.data.label.match(/(charmed|feared|frightened)/gi))
                 .map(e => ({ label: `Remove: ${e.data.label}`, value: e.id })));
         return await warpgate.buttonDialog(
             {
@@ -50,7 +49,6 @@ const twilightUtil = {
             speaker: ChatMessage.getSpeaker(),
             flavor: "Twilight Sanctuary - Temp HP"
         });
-        debugger;
         // Check if new roll is higher than old temp HP
         console.log(healRoll);
         let new_tempHP = parseInt(healRoll.total);
@@ -63,12 +61,26 @@ const twilightUtil = {
     },
     removeEffect: async function _removeEffect(target, effectID) {
         return target.effects.get(effectID)?.delete();
+    },
+    shouldTerminate: function _shouldTerminate(caster) {
+        return caster.data.data.attributes.hp.value <= 0 || caster.effects.contents
+                    .filter(e => e.data.label.match(/(unconscious|incapacitated)/gi)).length > 0;
+    },
+    removeTwilightEffects: function _removeTwilightEffects(caster) {
+        gmMacro.execute(caster.id);
     }
 };
+let gmMacro = game.macros.getName(GM_MACRO);
+
+if (!gmMacro) {
+    ui.notifications.notify(`${GM_MACRO} not found!`);
+    return;
+}
 
 let caster = origin.parent;
 
-if (caster.data.data.attributes.hp <= 0) {
+if (twilightUtil.shouldTerminate(caster)) {
+    twilightUtil.removeTwilightEffects(caster);
     return;
 }
 
@@ -84,6 +96,3 @@ switch(choice) {
     default:
         twilightUtil.removeEffect(actor, choice);
 }
-
-
-//canvas.scene.tokens.filter(token  => token.actor && token.actor.data.type == 'character' && token.actor.effects.contents.filter(e => e.data.origin.startsWith(`Actor.n21cvOAbggJAcIwL`).length > 0)).map(t => t.actor.effects.contents.filter(e => e.data.origin.startsWith(`Actor.n21cvOAbggJAcIwL`)))
