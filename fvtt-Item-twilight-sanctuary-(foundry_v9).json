@@ -1,0 +1,223 @@
+{
+    "name": "Twilight Sanctuary (foundry)",
+    "type": "feat",
+    "img": "https://assets.forge-vtt.com/634b24b96df3a5a10e8ccd71/custom_icons/twilightsanctuary.webp",
+    "data": {
+      "description": {
+        "value": "<p>As an action, you present your holy symbol, and a sphere of twilight emanates from you. The sphere is centered on you, has a 30-ft. radius, and is filled with dim light. The sphere moves with you, and it lasts for 1 minute or until you are @Compendium[dnd5e.rules.Incapacitated]{incapacitated} or die. Whenever a creature (including you) ends its turn in the sphere, you can grant that creature one of these benefits: - You grant it [[/roll 1d6 + 4]] temporary hit points. - You end one effect on it causing it to be @Compendium[dnd5e.rules.Charmed]{charmed} or @Compendium[dnd5e.rules.Frightened]{frightened}.</p>\n<details>\n<summary>More Details</summary>\n<p> </p>\n<p><em>2nd-level Twilight Domain feature</em></p>\n<p>You can use your Channel Divinity to refresh your allies with soothing twilight.</p>\n<p>As an action, you present your holy symbol, and a sphere of twilight emanates from you. The sphere is centered on you, has a 30-foot radius, and is filled with dim light. The sphere moves with you, and it lasts for 1 minute or until you are @Compendium[dnd5e.rules.tUYvSkhggFcMpVw5]{incapacitated} or die. Whenever a creature (including you) ends its turn in the sphere, you can grant that creature one of these benefits:</p>\n<ul>\n<li>You grant it temporary hit points equal to 1d6 plus your cleric level.</li>\n<li>You end one effect on it causing it to be @Compendium[dnd5e.rules.H8aTFVG3YFAkQ3TK]{charmed} or @Compendium[dnd5e.rules.pAcHCDJBhybiVzMF]{frightened}.</li>\n</ul>\n<p> </p>\n</details>",
+        "chat": "",
+        "unidentified": ""
+      },
+      "source": "",
+      "activation": {
+        "type": "action",
+        "cost": 1,
+        "condition": ""
+      },
+      "duration": {
+        "value": null,
+        "units": ""
+      },
+      "target": {
+        "value": 120,
+        "width": null,
+        "units": "ft",
+        "type": "ally"
+      },
+      "range": {
+        "value": null,
+        "long": null,
+        "units": "any"
+      },
+      "uses": {
+        "value": null,
+        "max": "",
+        "per": ""
+      },
+      "consume": {
+        "type": "charges",
+        "target": "2hIY4zJEtLrDdMdq",
+        "amount": 1
+      },
+      "ability": null,
+      "actionType": "",
+      "attackBonus": 0,
+      "chatFlavor": "",
+      "critical": {
+        "threshold": null,
+        "damage": ""
+      },
+      "damage": {
+        "parts": [],
+        "versatile": ""
+      },
+      "formula": "",
+      "save": {
+        "ability": "",
+        "dc": null,
+        "scaling": "spell"
+      },
+      "requirements": "",
+      "recharge": {
+        "value": null,
+        "charged": false
+      },
+      "attunement": 0
+    },
+    "effects": [
+      {
+        "_id": "pylohu6bqfg8gs1r",
+        "changes": [],
+        "disabled": false,
+        "duration": {
+          "startTime": null,
+          "seconds": 60
+        },
+        "icon": "https://assets.forge-vtt.com/634b24b96df3a5a10e8ccd71/custom_icons/twilightsanctuary.webp",
+        "label": "Twilight Sanctuary (Foundry)",
+        "transfer": false,
+        "flags": {
+          "dae": {
+            "selfTarget": false,
+            "stackable": "noneName",
+            "durationExpression": "",
+            "macroRepeat": "none",
+            "specialDuration": [],
+            "transfer": false
+          },
+          "core": {
+            "statusId": ""
+          },
+          "dnd5e-helpers": {
+            "rest-effect": "Ignore"
+          },
+          "ActiveAuras": {
+            "isAura": false,
+            "aura": "None",
+            "radius": null,
+            "alignment": "",
+            "type": "",
+            "ignoreSelf": false,
+            "height": false,
+            "hidden": false,
+            "displayTemp": false,
+            "hostile": false,
+            "onlyOnce": false
+          },
+          "effectmacro": {
+            "onTurnEnd": {
+              "script": "/*\nend of turn automation for twilight sanctuary, requires midi-qol and event macros\nSyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/twilightSanctuaryTurnEnd.js\n*/\nconst GM_MACRO = \"twilightSanctuaryRemoveEffectsGM\";\nconst twilightUtil = {\n    getDistance: function _getDistance(source, target) {\n        let sourceTokens = source.getActiveTokens();\n        let targetTokens = target.getActiveTokens();\n        if (!sourceTokens || sourceTokens.length > 1) {\n            ui.notifications.notify(`${source.name} can only have 1 active token in the scene!`);\n            return 50;\n        }\n        if (!targetTokens || targetTokens.length > 1) {\n            ui.notifications.notify(`${target.name} can only have 1 active token in the scene!`);\n            return 50;\n        }\n        let distance = canvas.dimensions.distance;\n        return distance * Math.round(canvas.grid.measureDistance(sourceTokens[0].center, targetTokens[0].center) / distance);\n    },\n    getUserChoice: async function _createDialog(actor) {\n        let buttons = [\n            {\n                label: \"Heal Temp HP\",\n                value: \"heal\"\n            }\n        ];\n\n        buttons = buttons.concat(\n            actor.effects.contents\n                .filter(e => e.data.label.match(/(charmed|feared|frightened)/gi))\n                .map(e => ({ label: `Remove: ${e.data.label}`, value: e.id })));\n        return await warpgate.buttonDialog(\n            {\n                buttons,\n                title: \"Twilight Sanctuary\"\n            },\n            'column'\n        );\n    },\n    applyTempHP: async function _applyTempHP(caster, target){\n        let current_tempHP = target.data.data?.attributes?.hp?.temp;\n    \n        // Roll Twilight Sanctuary temporary hit points\n        let healRoll = new Roll('1d6 + @classes.cleric.levels', caster.getRollData()).evaluate({ async: false });\n    \n        healRoll.toMessage({\n            user: game.user._id,\n            speaker: ChatMessage.getSpeaker(),\n            flavor: \"Twilight Sanctuary - Temp HP\"\n        });\n        debugger;\n        // Check if new roll is higher than old temp HP\n        console.log(healRoll);\n        let new_tempHP = parseInt(healRoll.total);\n    \n        if (current_tempHP && current_tempHP <= new_tempHP) {\n            return;\n        }\n    \n        token.actor.update({ 'data.attributes.hp.temp': new_tempHP });\n    },\n    removeEffect: async function _removeEffect(target, effectID) {\n        return target.effects.get(effectID)?.delete();\n    },\n    shouldTerminate: function _shouldTerminate(caster) {\n        return caster.data.data.attributes.hp.value <= 0 || caster.effects.contents\n                    .filter(e => e.data.label.match(/(unconscious|incapacitated)/gi)).length > 0;\n    },\n    removeTwilightEffects: function _removeTwilightEffects(caster) {\n        gmMacro.execute(caster.id);\n    }\n};\nlet gmMacro = game.macros.getName(GM_MACRO);\n\nif (!gmMacro) {\n    ui.notifications.notify(`${GM_MACRO} not found!`);\n    return;\n}\n\nlet caster = origin.parent;\n\nif (twilightUtil.shouldTerminate(caster)) {\n    twilightUtil.removeTwilightEffects(caster);\n    return;\n}\n\nif (twilightUtil.getDistance(caster, actor) > 30) {\n    return;\n}\n\nlet choice = await twilightUtil.getUserChoice(actor);\nswitch(choice) {\n    case \"heal\":\n        twilightUtil.applyTempHP(caster, actor);\n        break;\n    default:\n        twilightUtil.removeEffect(actor, choice);\n}"
+            },
+            "data": {
+              "lastUpdated": "onDelete"
+            },
+            "onDelete": {
+              "script": "/*\nend of turn automation for twilight sanctuary, requires midi-qol and event macros\nSyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/twilightSanctuaryFinalTurn.js\n*/\nconst GM_MACRO = \"twilightSanctuaryRemoveEffectsGM\";\nconst twilightUtil = {\n    getDistance: function _getDistance(source, target) {\n        let sourceTokens = source.getActiveTokens();\n        let targetTokens = target.getActiveTokens();\n        if (!sourceTokens || sourceTokens.length > 1) {\n            ui.notifications.notify(`${source.name} can only have 1 active token in the scene!`);\n            return 50;\n        }\n        if (!targetTokens || targetTokens.length > 1) {\n            ui.notifications.notify(`${target.name} can only have 1 active token in the scene!`);\n            return 50;\n        }\n        let distance = canvas.dimensions.distance;\n        return distance * Math.round(canvas.grid.measureDistance(sourceTokens[0].center, targetTokens[0].center) / distance);\n    },\n    getUserChoice: async function _createDialog(actor) {\n        let buttons = [\n            {\n                label: \"Heal Temp HP\",\n                value: \"heal\"\n            }\n        ];\n\n        buttons = buttons.concat(\n            actor.effects.contents\n                .filter(e => e.data.label.match(/(charmed|feared|frightened)/gi))\n                .map(e => ({ label: `Remove: ${e.data.label}`, value: e.id })));\n        return await warpgate.buttonDialog(\n            {\n                buttons,\n                title: \"Twilight Sanctuary\"\n            },\n            'column'\n        );\n    },\n    applyTempHP: async function _applyTempHP(caster, target){\n        let current_tempHP = target.data.data?.attributes?.hp?.temp;\n    \n        // Roll Twilight Sanctuary temporary hit points\n        let healRoll = new Roll('1d6 + @classes.cleric.levels', caster.getRollData()).evaluate({ async: false });\n    \n        healRoll.toMessage({\n            user: game.user._id,\n            speaker: ChatMessage.getSpeaker(),\n            flavor: \"Twilight Sanctuary - Temp HP\"\n        });\n        // Check if new roll is higher than old temp HP\n        console.log(healRoll);\n        let new_tempHP = parseInt(healRoll.total);\n    \n        if (current_tempHP && current_tempHP <= new_tempHP) {\n            return;\n        }\n    \n        token.actor.update({ 'data.attributes.hp.temp': new_tempHP });\n    },\n    shouldTerminate: function _shouldTerminate(caster) {\n        return caster.data.data.attributes.hp.value <= 0 || caster.effects.contents\n                    .filter(e => e.data.label.match(/(unconscious|incapacitated)/gi)).length > 0;\n    }\n};\nlet gmMacro = game.macros.getName(GM_MACRO);\n\nif (!gmMacro) {\n    ui.notifications.notify(`${GM_MACRO} not found!`);\n    return;\n}\n\nlet caster = origin.parent;\n\nif (game.combats.active) {\n    // if the effect fell off in combat, no final heal\n    return;\n}\n\nif (twilightUtil.shouldTerminate(caster)) {\n    return;\n}\n\nif (twilightUtil.getDistance(caster, actor) > 30) {\n    return;\n}\n\ntwilightUtil.applyTempHP(caster, actor);"
+            }
+          }
+        },
+        "tint": null
+      },
+      {
+        "_id": "7bxycajueb84a5jd",
+        "changes": [],
+        "disabled": false,
+        "duration": {
+          "startTime": null,
+          "seconds": 60
+        },
+        "icon": "https://assets.forge-vtt.com/634b24b96df3a5a10e8ccd71/custom_icons/twilightsanctuary.webp",
+        "label": "TSAura",
+        "transfer": false,
+        "flags": {
+          "dae": {
+            "selfTarget": true,
+            "stackable": "noneName",
+            "durationExpression": "",
+            "macroRepeat": "none",
+            "specialDuration": [
+              "zeroHP"
+            ],
+            "transfer": false
+          },
+          "core": {
+            "statusId": ""
+          },
+          "dnd5e-helpers": {
+            "rest-effect": "Ignore"
+          },
+          "ActiveAuras": {
+            "isAura": false,
+            "aura": "None",
+            "radius": null,
+            "alignment": "",
+            "type": "",
+            "ignoreSelf": false,
+            "height": false,
+            "hidden": false,
+            "displayTemp": false,
+            "hostile": false,
+            "onlyOnce": false
+          },
+          "autoanimations": {
+            "version": 4,
+            "killAnim": false,
+            "animLevel": true,
+            "override": true,
+            "macro": {
+              "enable": false
+            },
+            "animType": "aura",
+            "options": {
+              "menuType": "tokenborder",
+              "variant": "01",
+              "enableCustom": false,
+              "auraRadius": 12,
+              "opacity": 0.25,
+              "ignoreTarget": true,
+              "unbindAlpha": false,
+              "unbindVisibility": false,
+              "aeDelay": null
+            },
+            "animation": "static",
+            "color": "blue",
+            "audio": {
+              "a01": {
+                "enable": false
+              }
+            },
+            "preview": false
+          },
+          "effectmacro": {
+            "onDelete": {
+              "script": "/*\nend of turn automation for twilight sanctuary, requires midi-qol and event macros\nSyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/twilightSanctuaryAura.js\n*/\nconst GM_MACRO = \"twilightSanctuaryRemoveEffectsGM\";\nconst twilightAura = {\n    removeTwilightEffects: function _removeTwilightEffects(caster) {\n        gmMacro.execute(caster.id);\n    }\n};\n\nlet gmMacro = game.macros.getName(GM_MACRO);\n\nif (!gmMacro) {\n    ui.notifications.notify(`${GM_MACRO} not found!`);\n    return;\n}\n\nlet caster = origin.parent;\n\ntwilightAura.removeTwilightEffects(caster);"
+            },
+            "data": {
+              "lastUpdated": "onDelete"
+            }
+          }
+        },
+        "tint": null
+      }
+    ],
+    "flags": {
+      "core": {
+        "sourceId": "Item.Apkf4jvQD8tlAJTn"
+      },
+      "midi-qol": {
+        "onUseMacroName": ""
+      },
+      "midiProperties": {},
+      "ddbimporter": {
+        "ignoreIcon": false,
+        "ignoreItemImport": true,
+        "retainResourceConsumption": true
+      },
+      "exportSource": {
+        "world": "lost-mines-phandelver",
+        "system": "dnd5e",
+        "coreVersion": "9.280",
+        "systemVersion": "1.6.3"
+      }
+    }
+  }
