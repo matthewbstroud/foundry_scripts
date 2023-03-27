@@ -86,10 +86,4 @@ if (twilightUtil.getDistance(caster, actor) > 30) {
     return;
 }
 
-
-
-let choice = await twilightUtil.getUserChoice(actor);
-if (!choice) {
-    return;
-}
 twilightUtil.applyTempHP(caster, actor);
