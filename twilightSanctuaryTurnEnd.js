@@ -53,7 +53,7 @@ const twilightUtil = {
         console.log(healRoll);
         let new_tempHP = parseInt(healRoll.total);
     
-        if (current_tempHP && current_tempHP <= new_tempHP) {
+        if (current_tempHP && current_tempHP >= new_tempHP) {
             return;
         }
     
