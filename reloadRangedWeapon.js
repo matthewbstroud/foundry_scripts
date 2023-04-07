@@ -14,7 +14,9 @@ let reloader = {
             case "shortbow":
                 ammoType = "arrow";
                 break;
-            case "crossbow":
+            case "heavycrossbow":
+            case "lightcrossbow":
+            case "handcrossbow":
                 ammoType = "bolt";
                 break;
             case "sling":
