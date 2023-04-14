@@ -19,7 +19,7 @@ if (!huntersMarkItem) {
     return;
 }
 
-var huntersMarkParentEffect = targetActor.effects.find(e => e.data.label == "Hunter's Mark" && e.data.origin == "Actor.USz1jAGCsPlW3KV1.Item.uyE2oWDqTNlBjNJD");
+var huntersMarkParentEffect = targetActor.effects.find(e => e.data.label == "Hunter's Mark" && e.data.origin == huntersMarkItem.uuid);
 if (!huntersMarkParentEffect) {
     ui.notifications.notify(`${targetActor.name} doesn't have Hunter's Mark active!`);
     return;
