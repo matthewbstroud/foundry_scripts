@@ -40,8 +40,8 @@ if (!markedTargetID) {
     return;
 }
 
-if (targetID === markedTargetID) {
-    ui.notifications.notify($`This target is already marked!`);
+if (targetID == markedTargetID) {
+    ui.notifications.notify(`This target is already marked!`);
     return;
 }
 
@@ -57,14 +57,14 @@ huntersMarkEffectTarget.update({
 
 await game.dfreds.effectInterface.removeEffect({
     effectName: "Hunter's Mark",
-    uuid : markedTargetID,
+    uuid: markedTargetID,
     origin: huntersMarkItem.uuid
 });
 
 await game.dfreds.effectInterface.addEffect({
-    effectName: "Hunter's Mark", 
-    uuid: targetID, 
-    origin: huntersMarkItem.uuid, 
-    overlay: false, 
+    effectName: "Hunter's Mark",
+    uuid: targetID,
+    origin: huntersMarkItem.uuid,
+    overlay: false,
     metadata: {}
 });
