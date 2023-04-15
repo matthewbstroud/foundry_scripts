@@ -28,7 +28,7 @@ if (args[0].tag === "OnUse") {
         ],
         origin: args[0].itemUuid,
         disabled: false,
-        duration: args[0].item.effects[0].duration,
+        duration: 3600,
         icon: args[0].item.img,
         label: args[0].item.name,
         "flags": {
@@ -46,7 +46,7 @@ if (args[0].tag === "OnUse") {
     if (!["mwak", "rwak"].includes(args[0].item.data.actionType)) return {};
     const targetUuid = args[0].hitTargets[0].uuid;
     // only on the marked target
-    let currentTargetUuid = args[0].actor?.document?.getFlag("midi-qol", "huntersMark") ?? args[0]?.actor?.getFlag("midi-qol", "huntersMark");
+    let currentTargetUuid = args[0].actor?.document?.getFlag("midi-qol", "huntersMark") ?? args[0]?.actor.getFlag("midi-qol", "huntersMark");
     if (targetUuid !== currentTargetUuid) return {};
     const damageType = args[0].item.data.damage.parts[0][1];
     const diceMult = args[0].isCritical ? 2 : 1;
