@@ -46,7 +46,8 @@ if (args[0].tag === "OnUse") {
     if (!["mwak", "rwak"].includes(args[0].item.data.actionType)) return {};
     const targetUuid = args[0].hitTargets[0].uuid;
     // only on the marked target
-    if (targetUuid !== args[0].actor.document.getFlag("midi-qol", "huntersMark")) return {};
+    let currentTargetUuid = args[0].actor?.document?.getFlag("midi-qol", "huntersMark") ?? args[0]?.actor?.getFlag("midi-qol", "huntersMark");
+    if (targetUuid !== currentTargetUuid) return {};
     const damageType = args[0].item.data.damage.parts[0][1];
     const diceMult = args[0].isCritical ? 2 : 1;
     return { damageRoll: `${diceMult}d6[${damageType}]`, flavor: "Hunters Mark Damage" };
