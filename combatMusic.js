@@ -16,7 +16,7 @@ if (args && args.length == 1) {
 
 let combatPlaylist = game.playlists.getName("Combat");
 if (combatPlaylist) {
-    if (model == "start" && combatPlaylist.playing) {
+    if (mode == "start" && combatPlaylist.playing) {
         return;
     }
     else if (combatPlaylist.playing) {
