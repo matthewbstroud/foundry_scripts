@@ -160,12 +160,6 @@
     },
     "itemacro": {
       "macro": {
-        "data": {
-          "name": "Hunter's Mark",
-          "type": "script",
-          "scope": "global",
-          "command": "// onUse macro\nif (args[0].hitTargets.length === 0) return;\nif (args[0].tag === \"OnUse\") {\n  const targetUuid = args[0].hitTargets[0].uuid;\n  const tokenOrActor = await fromUuid(args[0].actorUuid);\n  const caster = tokenOrActor.actor ? tokenOrActor.actor : tokenOrActor;\n\n  if (!caster || !targetUuid) {\n    ui.notifications.warn(\"Hunter's Mark: no token/target selected\");\n    console.error(\"Hunter's Mark: no token/target selected\");\n    return;\n  }\n\n  const effectData = {\n    changes: [\n      {\n        key: \"flags.midi-qol.huntersMark\",\n        mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,\n        value: targetUuid,\n        priority: 20,\n      }, // who is marked\n      {\n        key: \"flags.dnd5e.DamageBonusMacro\",\n        mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,\n        value: `ItemMacro.${args[0].item.name}`,\n        priority: 20,\n      }, // macro to apply the damage\n    ],\n    origin: args[0].itemUuid,\n    disabled: false,\n    duration: args[0].item.effects[0].duration,\n    icon: args[0].item.img,\n    label: args[0].item.name,\n  };\n  effectData.duration.startTime = game.time.worldTime;\n  await caster.createEmbeddedDocuments(\"ActiveEffect\", [effectData]);\n} else if (args[0].tag === \"DamageBonus\") {\n  // only weapon attacks\n  if (![\"mwak\", \"rwak\"].includes(args[0].item.data.actionType)) return {};\n  const targetUuid = args[0].hitTargets[0].uuid;\n  // only on the marked target\n  if (targetUuid !== getProperty(args[0].actor.flags, \"midi-qol.huntersMark\")) return {};\n  const damageType = args[0].item.data.damage.parts[0][1];\n  const diceMult = args[0].isCritical ? 2 : 1;\n  return { damageRoll: `${diceMult}d6[${damageType}]`, flavor: \"Hunters Mark Damage\" };\n}\n"
-        },
         "options": {},
         "apps": {},
         "compendium": null,
