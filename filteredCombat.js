@@ -27,3 +27,8 @@ tokensToRelease.forEach(t => {
 
 await canvas.tokens.toggleCombat();
 await game.combat.rollNPC();
+let combatMusicMacro = game.macros.getName("Combat Music");
+if (!combatMusicMacro) {
+    return;
+}
+combatMusicMacro.execute("start");

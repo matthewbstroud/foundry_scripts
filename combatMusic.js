@@ -9,9 +9,17 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+let mode = "toggle";
+if (args && args.length == 1) {
+    mode = args[0];
+}
+
 let combatPlaylist = game.playlists.getName("Combat");
 if (combatPlaylist) {
-    if (combatPlaylist.playing) {
+    if (model == "start" && combatPlaylist.playing) {
+        return;
+    }
+    else if (combatPlaylist.playing) {
         combatPlaylist.stopAll();
         return;
     }
