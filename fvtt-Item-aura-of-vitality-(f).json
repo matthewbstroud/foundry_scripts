@@ -1,0 +1,263 @@
+{
+  "name": "Aura of Vitality (F)",
+  "type": "spell",
+  "img": "systems/dnd5e/icons/spells/air-burst-magenta-2.jpg",
+  "data": {
+    "description": {
+      "value": "<p>Healing energy radiates from you in an aura with a 30-foot radius. Until the spell ends, the aura moves with you, centered on you. You can use a bonus action to cause one creature in the aura (including you) to regain 2d6 hit points.</p>",
+      "chat": "",
+      "unidentified": ""
+    },
+    "source": "Player's Handbook pg 216",
+    "activation": {
+      "type": "action",
+      "cost": 1,
+      "condition": ""
+    },
+    "duration": {
+      "value": 1,
+      "units": "minute"
+    },
+    "target": {
+      "value": null,
+      "width": null,
+      "units": "",
+      "type": "self"
+    },
+    "range": {
+      "value": null,
+      "long": null,
+      "units": "self"
+    },
+    "uses": {
+      "value": null,
+      "max": "",
+      "per": ""
+    },
+    "consume": {
+      "type": "",
+      "target": "",
+      "amount": null
+    },
+    "ability": "",
+    "actionType": "heal",
+    "attackBonus": 0,
+    "chatFlavor": "[2d6 - healing] You can use a bonus action to target one creature in the aura (including you)",
+    "critical": {
+      "threshold": null,
+      "damage": ""
+    },
+    "damage": {
+      "parts": [],
+      "versatile": ""
+    },
+    "formula": "",
+    "save": {
+      "ability": "",
+      "dc": null,
+      "scaling": "spell"
+    },
+    "level": 3,
+    "school": "evo",
+    "components": {
+      "value": "",
+      "vocal": true,
+      "somatic": false,
+      "material": false,
+      "ritual": false,
+      "concentration": true
+    },
+    "materials": {
+      "value": "",
+      "consumed": false,
+      "cost": 0,
+      "supply": 0
+    },
+    "preparation": {
+      "mode": "always",
+      "prepared": true
+    },
+    "scaling": {
+      "mode": "none",
+      "formula": ""
+    }
+  },
+  "effects": [
+    {
+      "_id": "4p0xjkk81uj5i9if",
+      "changes": [],
+      "disabled": false,
+      "duration": {
+        "startTime": null,
+        "seconds": 60
+      },
+      "icon": "systems/dnd5e/icons/spells/air-burst-magenta-2.jpg",
+      "label": "Aura of Vitality (F)",
+      "transfer": false,
+      "flags": {
+        "dae": {
+          "selfTarget": true,
+          "stackable": "none",
+          "durationExpression": "",
+          "macroRepeat": "none",
+          "specialDuration": [],
+          "transfer": false
+        },
+        "core": {
+          "statusId": ""
+        },
+        "dnd5e-helpers": {
+          "rest-effect": "Ignore"
+        },
+        "ActiveAuras": {
+          "isAura": true,
+          "aura": "Allies",
+          "radius": 30,
+          "alignment": "",
+          "type": "",
+          "ignoreSelf": false,
+          "height": false,
+          "hidden": false,
+          "displayTemp": true,
+          "hostile": false,
+          "onlyOnce": false
+        }
+      },
+      "tint": null
+    },
+    {
+      "_id": "7r153uu19fauyygq",
+      "changes": [],
+      "disabled": false,
+      "duration": {
+        "startTime": null,
+        "seconds": 60
+      },
+      "icon": null,
+      "label": "Aura of Vitality - Self (F)",
+      "transfer": false,
+      "flags": {
+        "autoanimations": {
+          "version": 4,
+          "killAnim": false,
+          "animLevel": true,
+          "override": true,
+          "macro": {
+            "enable": false
+          },
+          "animType": "aura",
+          "options": {
+            "menuType": "magicsign",
+            "variant": "01",
+            "enableCustom": false,
+            "auraRadius": 6.25,
+            "opacity": 0.25,
+            "ignoreTarget": true,
+            "unbindAlpha": false,
+            "unbindVisibility": false,
+            "aeDelay": null
+          },
+          "animation": "divination",
+          "color": "lightblue",
+          "audio": {
+            "a01": {
+              "enable": false
+            }
+          },
+          "preview": false
+        },
+        "dae": {
+          "selfTarget": true,
+          "stackable": "none",
+          "durationExpression": "",
+          "macroRepeat": "none",
+          "specialDuration": [],
+          "transfer": false
+        },
+        "core": {
+          "statusId": ""
+        },
+        "dnd5e-helpers": {
+          "rest-effect": "Ignore"
+        },
+        "ActiveAuras": {
+          "isAura": false,
+          "aura": "None",
+          "radius": null,
+          "alignment": "",
+          "type": "",
+          "ignoreSelf": false,
+          "height": false,
+          "hidden": false,
+          "displayTemp": false,
+          "hostile": false,
+          "onlyOnce": false
+        }
+      },
+      "tint": null
+    }
+  ],
+  "flags": {
+    "ddbimporter": {
+      "id": 5865605,
+      "definitionId": 2333,
+      "entityTypeId": 435869154,
+      "dndbeyond": {
+        "lookup": "classSpell",
+        "class": "Cleric",
+        "level": 5,
+        "characterClassId": 114648103,
+        "spellLevel": 3,
+        "ability": "wis",
+        "mod": 4,
+        "dc": 15,
+        "cantripBoost": false,
+        "overrideDC": false,
+        "id": 5865605,
+        "entityTypeId": 435869154,
+        "healingBoost": 0,
+        "usesSpellSlot": true
+      },
+      "originalName": "Aura of Vitality",
+      "sources": [
+        {
+          "sourceId": 2,
+          "pageNumber": 216,
+          "sourceType": 1
+        }
+      ],
+      "tags": [
+        "Healing"
+      ],
+      "version": "2.9.67",
+      "effectsApplied": true,
+      "importId": "vcm5s7ayjgi47v9l"
+    },
+    "spell-class-filter-for-5e": {
+      "parentClass": "cleric"
+    },
+    "midi-qol": {
+      "effectActivation": false
+    },
+    "midiProperties": {
+      "nodam": false,
+      "fulldam": false,
+      "halfdam": false,
+      "rollOther": false,
+      "critOther": false,
+      "magicdam": false,
+      "magiceffect": false,
+      "concentration": false,
+      "toggleEffect": false
+    },
+    "core": {
+      "sourceId": "Item.WiobjdaUo93dZAbf"
+    },
+    "exportSource": {
+      "world": "lost-mines-phandelver",
+      "system": "dnd5e",
+      "coreVersion": "9.280",
+      "systemVersion": "1.6.3"
+    }
+  }
+}
