@@ -51,7 +51,7 @@ let healRoll = new Roll('2d6[healing]', targetActor.getRollData()).evaluate({ as
 healRoll.toMessage({
     user: game.user._id,
     speaker: ChatMessage.getSpeaker(),
-    flavor: `Aura of Vitality Heal`
+    flavor: `Aura of Vitality Heal - ${target.name}`
 });
 
 healPlayerMacro.execute(target?.actor?.id, parseInt(healRoll.total));
