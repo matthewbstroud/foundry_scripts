@@ -231,13 +231,17 @@
       ],
       "version": "2.9.67",
       "effectsApplied": true,
-      "importId": "vcm5s7ayjgi47v9l"
+      "importId": "vcm5s7ayjgi47v9l",
+      "ignoreIcon": false,
+      "ignoreItemImport": true,
+      "retainResourceConsumption": false
     },
     "spell-class-filter-for-5e": {
       "parentClass": "cleric"
     },
     "midi-qol": {
-      "effectActivation": false
+      "effectActivation": false,
+      "onUseMacroName": ""
     },
     "midiProperties": {
       "nodam": false,
@@ -251,7 +255,7 @@
       "toggleEffect": false
     },
     "core": {
-      "sourceId": "Item.WiobjdaUo93dZAbf"
+      "sourceId": "Item.n6Hvrc2q6SpKpobn"
     },
     "exportSource": {
       "world": "lost-mines-phandelver",
