@@ -148,23 +148,31 @@
           "animType": "aura",
           "options": {
             "menuType": "magicsign",
-            "variant": "01",
+            "variant": "02",
             "enableCustom": false,
             "auraRadius": 6.25,
             "opacity": 0.25,
             "ignoreTarget": true,
             "unbindAlpha": false,
             "unbindVisibility": false,
-            "aeDelay": null
+            "aeDelay": null,
+            "staticType": "source",
+            "repeat": null,
+            "delay": null,
+            "scale": null,
+            "persistent": false
           },
-          "animation": "divination",
-          "color": "lightblue",
+          "animation": "evocation",
+          "color": "red",
           "audio": {
             "a01": {
               "enable": false
             }
           },
-          "preview": false
+          "preview": true,
+          "explosions": {
+            "enable": false
+          }
         },
         "dae": {
           "selfTarget": true,
@@ -255,7 +263,7 @@
       "toggleEffect": false
     },
     "core": {
-      "sourceId": "Item.n6Hvrc2q6SpKpobn"
+      "sourceId": "Item.25tDs0WuldzxSqd6"
     },
     "exportSource": {
       "world": "lost-mines-phandelver",
