@@ -58,8 +58,14 @@ let effectData = {
         'effectmacro': {
             'onDelete': {
                 'script': "warpgate.revert(token.document, '" + itemObject.name + "');"
+            },
+            'onTurnEnd':{
+                'script': `let originUserID = effect?.getFlag('world', 'originUserID');\nlet tp = canvas.scene.templates.filter(t => t.data.user == originUserID && t.data.t == "cone");\n\nif (!tp || tp.length == 0){\n   return;\n}\n\ntp[0].delete();\n\ngame.users.get(originUserID)?.updateTokenTargets();`
             }
         },
+        'world': {
+            'originUserID': `${game.userId}`
+        }
     }
 };
 let updates = {
