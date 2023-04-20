@@ -10,8 +10,8 @@ if (canvas.tokens.controlled.length != 1) {
     return;
 }
 let targetActor = canvas.tokens.controlled[0].actor;
-if (!targetActor || targetActor.data.type == "npc") {
-    ui.notifications.notify(`Please select a player!`);
+if (!targetActor) {
+    ui.notifications.notify(`Please select an actor!`);
     return;
 }
 
