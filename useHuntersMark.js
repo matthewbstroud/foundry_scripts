@@ -15,8 +15,8 @@ if (!targetActor || targetActor.data.type == "npc") {
     return;
 }
 
-var huntersMarkItem = targetActor.items.getName("Hunter's Mark");
-if (!huntersMarkItem) {
+var primarySpell = targetActor.items.getName("Hunter's Mark");
+if (!primarySpell) {
     ui.notifications.notify(`${targetActor.name} doesn't know Hunter's Mark!`);
     return;
 }
@@ -27,13 +27,13 @@ if (targets.length != 1) {
     return;
 }
 
-var huntersMarkParentEffect = targetActor.effects.find(e => e.data.label == "Hunter's Mark" && e.data.origin == huntersMarkItem.uuid);
-if (!huntersMarkParentEffect) {
-    huntersMarkItem.roll();
+var tempItem = targetActor.effects.find(e => e.data.label == "Hunter's Mark" && e.data.origin == primarySpell.uuid);
+if (!tempItem) {
+    primarySpell.roll();
     return;
 }
 
-var huntersMarkEffectTarget = huntersMarkParentEffect.data.changes.find(e => e.key == "flags.midi-qol.huntersMark");
+var huntersMarkEffectTarget = tempItem.data.changes.find(e => e.key == "flags.midi-qol.huntersMark");
 
 let targetID = targets[0].document.uuid;
 
@@ -61,13 +61,13 @@ huntersMarkEffectTarget.update({
 await game.dfreds.effectInterface.removeEffect({
     effectName: "Hunter's Mark",
     uuid: markedTargetID,
-    origin: huntersMarkItem.uuid
+    origin: primarySpell.uuid
 });
 
 await game.dfreds.effectInterface.addEffect({
     effectName: "Hunter's Mark",
     uuid: targetID,
-    origin: huntersMarkItem.uuid,
+    origin: primarySpell.uuid,
     overlay: false,
     metadata: {}
 });

@@ -40,7 +40,7 @@ function createDarts(damageAmount, numberOfDarts) {
     {
         "name": "Magic Dart",
         "type": "consumable",
-        "img": "icons/weapons/thrown/dart-feathered.webp",
+        "img": "systems/dnd5e/icons/spells/fire-arrows-sky-1.jpg",
         "data": {
             "description": {
                 "value": "A magic dart that always reaches the target.",
