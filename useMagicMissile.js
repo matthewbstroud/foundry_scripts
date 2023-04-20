@@ -32,6 +32,9 @@ if (!tempItem) {
     let message = await primarySpell.roll({
         createChatMessage: true
     });
+    if (!message) {
+        return;
+    }
     let workflowId = message.getFlag("midi-qol", "workflowId");
     let workflow = MidiQOL.Workflow.getWorkflow(workflowId);
     let itemLevel = workflow?.itemLevel;
