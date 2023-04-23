@@ -1,4 +1,4 @@
-//SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/v10/spiritualWeapon.js
+//SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/v10/Spiritual%20Weapon/spiritualWeapon.js
 //provided by siliconsaint for honeybadger's warpgate v1.5.0
 //https://github.com/trioderegion/warpgate
 

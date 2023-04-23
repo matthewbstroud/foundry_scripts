@@ -1,6 +1,6 @@
 /*
 Use or cast spiritual weapon
-SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/v10/useSpiritualWeapon.js
+SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/v10/Spiritual%20Weapon/useSpiritualWeapon.js
 */
 
 if (canvas.tokens.controlled.length != 1) {

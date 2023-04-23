@@ -1,4 +1,4 @@
-//SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/v10/spiritualWeapon_GM.js
+//SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/v10/Spiritual%20Weapon/spiritualWeapon_GM.js
 if (!args){
     return;
 }
