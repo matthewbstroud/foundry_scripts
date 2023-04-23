@@ -1,6 +1,6 @@
 /*
 Distribute money across players in scene.
-SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/v10/giveMoney.js
+SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/v10/Money/giveMoney.js
 */
 debugger;
 let sharees = canvas.scene.tokens.filter((token) => token.actor && token.actor.folder.name == "Players").map(t => t.actor);
