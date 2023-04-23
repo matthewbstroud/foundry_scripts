@@ -1,6 +1,6 @@
 /*
 fast roll thieves tools
-SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/useThievesTools.js
+SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/v10/useThievesTools.js
 */
 
 if (canvas.tokens.controlled.length != 1) {
