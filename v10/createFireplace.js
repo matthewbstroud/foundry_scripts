@@ -1,10 +1,10 @@
 /*
 createFireplace - turn an overlapping tile into a fireplace macro
 to use: place a tile over a light and sfx and run this macro while the tile is selected.'
-SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/createFireplace.js
+SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/v10/createFireplace.js
 */
 
-let fireplaceTile = canvas.background.controlled[0];
+let fireplaceTile = canvas.tiles.controlled[0];
 
 if (!fireplaceTile) {
     ui.notifications.notify(`No background tile selected`);
