@@ -3,7 +3,7 @@ Macro will generate a trinket in the player's inventory that represents the dart
 The number of charges will be 3 + @spellLevel.
 The damage per die will be a single roll of 1d4 + 1 (each dart will have the same damage)
 Will replace a dart trinket if one already exists in the players inventory.
-SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/v10/createMagicDarts.js
+SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/v10/Magic%20Missile/createMagicDarts.js
 */
 
 if (!actor) {
