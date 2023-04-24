@@ -4,6 +4,7 @@ SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/v1
 */
 if (!args || args.length != 1) {
     ui.notifications.notify('Invalid arguments');
+    return;
 }
 
 function toggleFireplace(fp) {
