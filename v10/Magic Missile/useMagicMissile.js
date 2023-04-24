@@ -1,6 +1,6 @@
 /*
 Cast magic missile if it is not up, otherwise use a remaining dart
-SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/v10/useMagicMissile.js
+SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/v10/Magic%20Missile/useMagicMissile.js
 */
 const PRIMARY_SPELL = "Magic Missile";
 const TEMP_ITEM = "Magic Dart";
