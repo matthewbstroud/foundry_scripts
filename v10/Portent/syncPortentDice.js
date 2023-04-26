@@ -30,5 +30,5 @@ let currentUses = parseInt(portent.system.uses.value) - 1;
 if (currentUses < 0) {
     return;
 }
-portent.update({ "uses.value": currentUses});
+portent.update({ "system.uses.value": currentUses});
 actor.update({ [`system.resources.${diceResource}.value`]: currentUses });
