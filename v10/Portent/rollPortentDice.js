@@ -3,7 +3,7 @@ Macro will generate two 1 use trinkets in the player's inventory.  Each will rol
 to the GM and then be destroyed.  Your daily portent uses are decremented on use.
 
 You cannot summon portent dice unless you have none and your portent uses are at 2.
-SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/rollPortentDice.js
+SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/v10/Portent/rollPortentDice.js
 */
 
 if (!actor) {
