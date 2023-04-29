@@ -84,7 +84,58 @@
     },
     "attunement": 0
   },
-  "effects": [],
+  "effects": [
+    {
+      "_id": "3s8idrvnqczos7dm",
+      "changes": [
+        {
+          "key": "StatusEffectLabel",
+          "mode": 0,
+          "value": "Marked",
+          "priority": "20"
+        }
+      ],
+      "disabled": false,
+      "duration": {
+        "startTime": null,
+        "seconds": 3600
+      },
+      "icon": "systems/dnd5e/icons/skills/green_01.jpg",
+      "label": "Hunter's Mark",
+      "transfer": false,
+      "flags": {
+        "dae": {
+          "selfTarget": false,
+          "stackable": "none",
+          "durationExpression": "",
+          "macroRepeat": "none",
+          "specialDuration": [],
+          "transfer": false
+        },
+        "core": {
+          "statusId": ""
+        },
+        "dnd5e-helpers": {
+          "rest-effect": "Ignore"
+        },
+        "ActiveAuras": {
+          "isAura": false,
+          "aura": "None",
+          "radius": null,
+          "alignment": "",
+          "type": "",
+          "ignoreSelf": false,
+          "height": false,
+          "hidden": false,
+          "displayTemp": false,
+          "hostile": false,
+          "onlyOnce": false
+        }
+      },
+      "tint": null,
+      "selectedKey": "StatusEffectLabel"
+    }
+  ],
   "flags": {
     "ddbimporter": {
       "id": 138323,
@@ -144,7 +195,7 @@
         "author": "6yhz13iFYYklKtgA",
         "img": "icons/svg/dice-target.svg",
         "scope": "global",
-        "command": "// onUse macro\nif (args[0].hitTargets.length === 0) return;\nif (args[0].tag === \"OnUse\") {\n    const targetUuid = args[0].hitTargets[0].uuid;\n    const tokenOrActor = await fromUuid(args[0].actorUuid);\n    const caster = tokenOrActor.actor ? tokenOrActor.actor : tokenOrActor;\n\n    if (!caster || !targetUuid) {\n        ui.notifications.warn(\"Hunter's Mark: no token/target selected\");\n        console.error(\"Hunter's Mark: no token/target selected\");\n        return;\n    }\n\n    const effectData = {\n        changes: [\n            {\n                key: \"flags.midi-qol.huntersMark\",\n                mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,\n                value: targetUuid,\n                priority: 20,\n            }, // who is marked\n            {\n                key: \"flags.dnd5e.DamageBonusMacro\",\n                mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,\n                value: `ItemMacro.${args[0].item.name}`,\n                priority: 20,\n            }, // macro to apply the damage\n        ],\n        origin: args[0].itemUuid,\n        disabled: false,\n        duration: 3600,\n        icon: args[0].item.img,\n        label: args[0].item.name,\n        \"flags\": {\n            \"effectmacro\": {\n                \"onDelete\": {\n                    \"script\": \"let caster = origin.parent;\\nvar huntersMarkItem = caster.items.getName(\\\"Hunter's Mark\\\");\\nif (!huntersMarkItem) {\\n    return;\\n}\\nlet markedActors = canvas.scene.tokens\\n    .filter(t => t.id != caster.id && t.actor && t.actor.effects.find(e => e.data.origin == huntersMarkItem.uuid && e.data.label == \\\"Hunter's Mark\\\"));\\nmarkedActors.forEach(a => {\\n    game.dfreds.effectInterface.removeEffect({\\n        effectName: \\\"Hunter's Mark\\\",\\n        uuid: a.uuid,\\n        origin: huntersMarkItem.uuid\\n    });\\n});\"\n                }\n            }\n        }\n    };\n    effectData.duration.startTime = game.time.worldTime;\n    await caster.createEmbeddedDocuments(\"ActiveEffect\", [effectData]);\n} else if (args[0].tag === \"DamageBonus\") {\n    // only weapon attacks\n    if (![\"mwak\", \"rwak\"].includes(args[0].item.data.actionType)) return {};\n    const targetUuid = args[0].hitTargets[0].uuid;\n    // only on the marked target\n    let currentTargetUuid = args[0].actor?.document?.getFlag(\"midi-qol\", \"huntersMark\") ?? args[0]?.actor.getFlag(\"midi-qol\", \"huntersMark\");\n    if (targetUuid !== currentTargetUuid) return {};\n    const damageType = args[0].item.data.damage.parts[0][1];\n    const diceMult = args[0].isCritical ? 2 : 1;\n    return { damageRoll: `${diceMult}d6[${damageType}]`, flavor: \"Hunters Mark Damage\" };\n}",
+        "command": "// onUse macro\nif (args[0].hitTargets.length === 0) return;\nif (args[0].tag === \"OnUse\") {\n    const targetUuid = args[0].hitTargets[0].uuid;\n    const tokenOrActor = await fromUuid(args[0].actorUuid);\n    const caster = tokenOrActor.actor ? tokenOrActor.actor : tokenOrActor;\n\n    if (!caster || !targetUuid) {\n        ui.notifications.warn(\"Hunter's Mark: no token/target selected\");\n        console.error(\"Hunter's Mark: no token/target selected\");\n        return;\n    }\n\n    const effectData = {\n        changes: [\n            {\n                key: \"flags.midi-qol.huntersMark\",\n                mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,\n                value: targetUuid,\n                priority: 20,\n            }, // who is marked\n            {\n                key: \"flags.dnd5e.DamageBonusMacro\",\n                mode: CONST.ACTIVE_EFFECT_MODES.CUSTOM,\n                value: `ItemMacro.${args[0].item.name}`,\n                priority: 20,\n            }, // macro to apply the damage\n        ],\n        origin: args[0].itemUuid,\n        disabled: false,\n        duration: {\n            startTime: null,\n            seconds: 3600\n        },\n        icon: args[0].item.img,\n        label: args[0].item.name,\n        \"flags\": {\n            dae: {\n                selfTarget: false,\n                stackable: \"none\",\n                durationExpression: \"\",\n                macroRepeat: \"none\",\n                specialDuration: [],\n                transfer: false\n            },\n            \"effectmacro\": {\n                \"onDelete\": {\n                    \"script\": \"let caster = origin.parent;\\nvar huntersMarkItem = caster.items.getName(\\\"Hunter's Mark\\\");\\nif (!huntersMarkItem) {\\n    return;\\n}\\nlet markedActors = canvas.scene.tokens\\n    .filter(t => t.id != caster.id && t.actor && t.actor.effects.find(e => e.data.origin == huntersMarkItem.uuid && e.data.label == \\\"Hunter's Mark\\\"));\\nmarkedActors.forEach(a => {\\n    game.dfreds.effectInterface.removeEffect({\\n        effectName: \\\"Hunter's Mark\\\",\\n        uuid: a.uuid,\\n        origin: huntersMarkItem.uuid\\n    });\\n});\"\n                }\n            }\n        }\n    };\n\n    effectData.duration.startTime = game.time.worldTime;\n    await caster.createEmbeddedDocuments(\"ActiveEffect\", [effectData]);\n} else if (args[0].tag === \"DamageBonus\") {\n    // only weapon attacks\n    if (![\"mwak\", \"rwak\"].includes(args[0].item.data.actionType)) return {};\n    const targetUuid = args[0].hitTargets[0].uuid;\n    // only on the marked target\n    let currentTargetUuid = args[0].actor?.document?.getFlag(\"midi-qol\", \"huntersMark\") ?? args[0]?.actor.getFlag(\"midi-qol\", \"huntersMark\");\n    if (targetUuid !== currentTargetUuid) return {};\n    const damageType = args[0].item.data.damage.parts[0][1];\n    const diceMult = args[0].isCritical ? 2 : 1;\n    return { damageRoll: `${diceMult}d6[${damageType}]`, flavor: \"Hunters Mark Damage\" };\n}",
         "folder": null,
         "sort": 0,
         "permission": {
@@ -156,7 +207,7 @@
     "midi-qol": {
       "onUseMacroName": "[postActiveEffects]ItemMacro",
       "effectActivation": false,
-      "forceCEOff": false,
+      "forceCEOff": true,
       "forceCEOn": false
     },
     "midiProperties": {
@@ -174,7 +225,7 @@
       "sourceId": "Item.UhYrzc0tWnz3KpyE"
     },
     "exportSource": {
-      "world": "lost-mines-phandelver",
+      "world": "lost_mines_v10",
       "system": "dnd5e",
       "coreVersion": "9.280",
       "systemVersion": "1.6.3"

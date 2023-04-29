@@ -58,16 +58,60 @@ huntersMarkEffectTarget.update({
     value: targetID
 });
 
-await game.dfreds.effectInterface.removeEffect({
-    effectName: "Hunter's Mark",
-    uuid: markedTargetID,
-    origin: primarySpell.uuid
-});
+let priorEffect = markedTarget?.actor?.effects?.find(e => e.data.label == "Marked" && e.data.origin == primarySpell.uuid);
+if (priorEffect) {
+    await priorEffect.delete();
+}
 
-await game.dfreds.effectInterface.addEffect({
-    effectName: "Hunter's Mark",
-    uuid: targetID,
-    origin: primarySpell.uuid,
-    overlay: false,
-    metadata: {}
-});
+let effectData = {
+    "changes": [
+      {
+        "key": "StatusEffectLabel",
+        "mode": 0,
+        "value": "Marked",
+        "priority": "20"
+      }
+    ],
+    "origin": primarySpell.uuid,
+    "disabled": false,
+    "duration": {
+      "startTime": null,
+      "seconds": 3600
+    },
+    "icon": "systems/dnd5e/icons/skills/green_01.jpg",
+    "label": "Hunter's Mark",
+    "transfer": false,
+    "flags": {
+      "dae": {
+        "selfTarget": false,
+        "stackable": "none",
+        "durationExpression": "",
+        "macroRepeat": "none",
+        "specialDuration": [],
+        "transfer": false
+      },
+      "core": {
+        "statusId": ""
+      },
+      "dnd5e-helpers": {
+        "rest-effect": "Ignore"
+      },
+      "ActiveAuras": {
+        "isAura": false,
+        "aura": "None",
+        "radius": null,
+        "alignment": "",
+        "type": "",
+        "ignoreSelf": false,
+        "height": false,
+        "hidden": false,
+        "displayTemp": false,
+        "hostile": false,
+        "onlyOnce": false
+      }
+    },
+    "tint": null,
+    "selectedKey": "StatusEffectLabel"
+  };
+  let target = await fromUuid(targetID);
+  await target.actor.createEmbeddedDocuments("ActiveEffect", [effectData]);

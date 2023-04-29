@@ -28,10 +28,21 @@ if (args[0].tag === "OnUse") {
         ],
         origin: args[0].itemUuid,
         disabled: false,
-        duration: 3600,
+        duration: {
+            startTime: null,
+            seconds: 3600
+        },
         icon: args[0].item.img,
         label: args[0].item.name,
         "flags": {
+            dae: {
+                selfTarget: false,
+                stackable: "none",
+                durationExpression: "",
+                macroRepeat: "none",
+                specialDuration: [],
+                transfer: false
+            },
             "effectmacro": {
                 "onDelete": {
                     "script": "let caster = origin.parent;\nvar huntersMarkItem = caster.items.getName(\"Hunter's Mark\");\nif (!huntersMarkItem) {\n    return;\n}\nlet markedActors = canvas.scene.tokens\n    .filter(t => t.id != caster.id && t.actor && t.actor.effects.find(e => e.data.origin == huntersMarkItem.uuid && e.data.label == \"Hunter's Mark\"));\nmarkedActors.forEach(a => {\n    game.dfreds.effectInterface.removeEffect({\n        effectName: \"Hunter's Mark\",\n        uuid: a.uuid,\n        origin: huntersMarkItem.uuid\n    });\n});"
@@ -39,6 +50,7 @@ if (args[0].tag === "OnUse") {
             }
         }
     };
+
     effectData.duration.startTime = game.time.worldTime;
     await caster.createEmbeddedDocuments("ActiveEffect", [effectData]);
 } else if (args[0].tag === "DamageBonus") {
