@@ -2,7 +2,7 @@
 Move Hunter's Mark to a new target
 Requires original target to be dead
 Cast the spell if it is not already up
-SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/useHuntersMark.js
+SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/HuntersMark/useHuntersMark.js
 */
 const GM_MACRO = "moveHuntersMark_GM";
 
