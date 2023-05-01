@@ -45,7 +45,7 @@ if (args[0].tag === "OnUse") {
             },
             "effectmacro": {
                 "onDelete": {
-                    "script": "let caster = origin.parent;\nvar huntersMarkItem = caster.items.getName(\"Hunter's Mark\");\nif (!huntersMarkItem) {\n    return;\n}\nlet markedActors = canvas.scene.tokens\n    .filter(t => t.id != caster.id && t.actor && t.actor.effects.find(e => e.data.origin == huntersMarkItem.uuid && e.data.label == \"Hunter's Mark\"));\nmarkedActors.forEach(a => {\n    game.dfreds.effectInterface.removeEffect({\n        effectName: \"Hunter's Mark\",\n        uuid: a.uuid,\n        origin: huntersMarkItem.uuid\n    });\n});"
+                    "script": "// added to the remove event of the hunter's mark self-effect\nlet caster = origin.parent;\nvar huntersMarkItem = caster.items.getName(\"Hunter's Mark\");\nif (!huntersMarkItem) {\n    return;\n}\nlet GM_MACRO = \"removeEffects_GM\";\nlet gmMacro = game.macros.getName(GM_MACRO);\n\nif (!gmMacro) {\n    return;\n}\n\nlet uuids = canvas.scene.tokens\n    .filter(t => t.id != caster.id)\n    .map(t => t.actor.effects.contents)\n    .reduce((l, r) => l.concat(r)).filter(e => e.data.origin == huntersMarkItem.uuid && e.data.label == \"Marked\")\n    .map(e => e.uuid);\n\ngmMacro.execute(uuids);"
                 }
             }
         }

@@ -5,7 +5,7 @@ Cast the spell if it is not already up
 SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/useHuntersMark.js
 */
 const GM_MACRO = "moveHuntersMark_GM";
-debugger;
+
 let gmMacro = game.macros.getName(GM_MACRO);
 
 if (!gmMacro) {
