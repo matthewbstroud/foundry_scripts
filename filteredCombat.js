@@ -7,10 +7,10 @@ function shouldRelease(token) {
     if (token.inCombat){
         return true;
     }
-    if (token.actor.folder.name == "Traps") {
+    if (token.actor?.folder?.name == "Traps") {
         return true;
     }
-    if (token.actor.folder.name == "Loot") {
+    if (token.actor?.folder?.name == "Loot") {
         return true;
     }
     if (token.actor.effects.filter(e => e.data.label == "Dead").length > 0) {
