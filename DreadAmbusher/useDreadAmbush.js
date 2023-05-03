@@ -1,6 +1,6 @@
 /*
 apply dread ambush damage
-SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/useDreadAmbush.js
+SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/DreadAmbusher/useDreadAmbush.js
 */
 const PRIMARY_SPELL = "Dread Ambush Damage";
 
