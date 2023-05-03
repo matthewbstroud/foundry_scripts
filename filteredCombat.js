@@ -4,19 +4,21 @@ SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/fi
 */
 
 function shouldRelease(token) {
-    if (token.inCombat){
+    const excludedFolders = ["Traps", "Loot", "Summons"];
+    if (token.inCombat) {
         return true;
     }
-    if (token.actor?.folder?.name == "Traps") {
+    var folderName = token?.actor?.folder?.name ?? "root";
+    if (excludedFolders.includes(folderName)) {
         return true;
     }
-    if (token.actor?.folder?.name == "Loot") {
+    if (token.actor.effects.filter(e => e.label == "Dead").length > 0) {
         return true;
     }
     if (token.actor.effects.filter(e => e.data.label == "Dead").length > 0) {
         return true;
     }
-    
+
     return false;
 }
 
