@@ -144,4 +144,4 @@ if (!diceCount) {
 }
 const damageRoll = await new Roll(`${diceCount}${damageDice}[${damageType}]`).evaluate({ async: true })
 damageRoll.toMessage({ flavor: `${adHocDamage.getSortedNames(targets)} been struck with ${CONFIG.DND5E.damageTypes[damageType]} damage!` });
-await MidiQOL.applyTokenDamage([{ type: `${damageType}`, damage: damageRoll.total }], damageRoll.total, new Set(targets), null, new Set(), {});
+await MidiQOL.applyTokenDamage([{ type: `${damageType}`, damage: damageRoll.total }], damageRoll.total, new Set(targets), null, new Set(), { forceApply: false });
