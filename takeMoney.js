@@ -2,7 +2,7 @@
 take money from selected or all players
 SyncUrl=https://raw.githubusercontent.com/matthewbstroud/foundry_scripts/main/takeMoney.js
 */
-let allActorsInScene = canvas.scene.tokens.filter((token) => token.actor  && token.actor.folder.name == "Players").map(t => t.actor);
+let allActorsInScene = canvas.scene.tokens.filter((token) => token.actor && token.actor.folder.name == "Players").map(t => t.actor);
 let controlledActors = canvas.tokens.controlled.filter((token) => token.actor && token.actor.data.type == 'character').map(t => t.actor);
 
 if ((!allActorsInScene || allActorsInScene.length == 0) && (!controlledActors || controlledActors.length == 0)) {
@@ -62,11 +62,13 @@ function removeCurrency(totalPP, totalGP, totalEP, totalSP, totalCP) {
         // if no controlled actors take a distributed amount from the 
         // player characters in the scene
         targetActors = allActorsInScene;
-        totalToRemove = Math.floor(totalToRemove / targetActors.length);
-        if (totalToRemove <= 0) {
-            ui.notifications.notify(`Shared take amount is zero.`);
-            return;
-        }
+
+    }
+
+    totalToRemove = Math.floor(totalToRemove / targetActors.length);
+    if (totalToRemove <= 0) {
+        ui.notifications.notify(`Shared take amount is zero.`);
+        return;
     }
 
     let actorsAndCash = targetActors.map(a => ({ actor: a, totalCopper: getTotalCopper(a) }));
