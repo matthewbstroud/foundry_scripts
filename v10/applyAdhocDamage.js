@@ -64,9 +64,7 @@ let adHocDamage = {
     releaseInvalidTokens: function _releaseInvalidTokens() {
         function shouldRelease(token) {
             const excludedFolders = ["Traps", "Loot", "Summons"];
-            if (token.inCombat) {
-                return true;
-            }
+
             var folderName = token?.actor?.folder?.name ?? "root";
             if (excludedFolders.includes(folderName)) {
                 return true;
